@@ -1,0 +1,113 @@
+form.bordered
+  background-color: #F3F3F3
+  border: 1px solid #DDD
+  padding: 10px 20px 10px 20px
+
+kbd
+  font-family: "Lucida Grande", Lucida, Verdana, sans-serif
+  color: #666
+  font-weight: bold
+  border-bottom: 1px solid #666
+
+label
+  display: block
+  font-family: "Lucida Grande", Lucida, Verdana, sans-serif
+  font-size: 1.1em
+  padding: 2px 2px 0px 0
+  color: #666
+
+  &.enabled
+    font-size: 1.1em
+    padding: 2px 2px 0px 0
+    color: #666
+
+  &.disabled
+    color: #AAA
+    kbd
+      color: #AAA
+      font-weight: normal
+      border-bottom: none
+  &.required
+    kbd
+      border-bottom: 2px solid red
+
+div
+  &.labelWithError
+    margin: 0
+    padding: 0
+    display: inline
+
+  &.fieldWithErrors
+    margin: 0
+    padding: 0
+    outline: 2px solid red
+    display: inline
+
+form div
+  margin: 15px 0 10px 0
+
+  &.floater
+    float: left
+    margin-right: 20px
+
+  &.tighter
+    margin: 5px 0 10px 0
+
+  &.checkbox
+    padding-top: 12px
+    padding-left: 15px
+    
+  &.boxed
+    border: 1px solid grey
+    padding: 10px 10px 10px 10px
+    background-color: whitesmoke
+
+  &.submit
+    vertical-align: bottom
+
+  &.radio
+    float: none
+    clear: both
+    overflow: hidden
+    input
+      float: left
+      padding: 4px 0 0 0
+    label
+      float: left
+      padding: 4px 4px 0 4px
+    select
+      margin: 0
+
+.floatkiller
+  float: none
+  clear: both
+
+input
+  &[type=text], &[type=password], &.text
+    margin: 4px 0 5px 0
+    padding: 1px
+    font-size: 1.3em
+
+  &[type=submit], &.button, &.submit
+    margin: 10px 0 5px 0
+    padding: 2px
+    font-size: 1.3em
+
+  &.password
+    width: 100px
+
+textarea
+  margin: 4px 0 5px 0
+  padding: 1px
+  font-family: "Lucida Grande", Lucida, Verdana, sans-serif
+  font-size: 1.2em
+  &.rich
+    padding-top: 25px
+    margin-top: 25px
+
+select
+  margin: 4px 0 5px 0
+  padding: 1px
+  font-size: 1.3em
+  font-family: "Lucida Grande", Lucida, Verdana, sans-serif
+  font-size: 1.2em

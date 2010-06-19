@@ -1,0 +1,36 @@
+<h1>
+	<%= if @source_object
+			if @source_object.is_a?(Command)
+				"#{@source_verb.titleize} Command: #{basic_command_link(@source_object)}"
+			else
+				"#{@source_verb.titleize} User Command: #{basic_user_command_link(@source_object)}"
+			end
+		else
+			'New User Command'
+		end
+	-%>
+</h1>
+
+<%= link_to 'Import Your Commands', import_user_commands_path unless subscribe_action? || controller.action_name == 'copy' %>
+<% if current_user.user_commands.count < 10 %>
+<div class="msg">
+ <p>Sorry to be patronizing, but it looks like you're a new user, so here are some tips to help you create your first command.</p>
+	
+	<ul class="options toolbar">
+		<li class="check">If you're creating a quicksearch, replace the search portion of the URL with the following: <code>(q)</code></li>
+		<li class="check">Don't forget to start your command URL with <code>http://</code> or <code>https://</code>. If you're creating a bookmarklet, don't forget the <code>javascript:</code></li>
+		<li class="check">The easiest way to familiarize yourself with how commands work is to copy or subscribe to them from <%= link_to "other users", users_path  %> and customize them to your liking.</li>
+	</ul>
+</div>
+<% end %>
+
+<%= error_messages_for :user_command %>
+
+<% form_for :user_command, :url => user_commands_path do |f| %>
+	<%= render :partial => "form", :locals => {:f => f} %>
+
+  <div class="floatkiller">	
+    <%= submit_tag (subscribe_action? ? "Subscribe" : "Create Command"), :class => "submit" %>
+    <%= submit_tag "Cancel", :class => "submit" if subscribe_action? || controller.action_name == 'copy' %>
+  </div>
+<% end %>

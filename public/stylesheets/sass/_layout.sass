@@ -1,0 +1,664 @@
+@font-face
+  font-family: "museo_sans_500"
+  src: url('../fonts/museo_sans_500.otf') format('opentype')
+
+@font-face
+  font-family: "museo_sans_500_italic"
+  src: url('../fonts/museo_sans_500_italic.otf') format('opentype')
+
+
+body
+  font-family: "Lucida Grande", Lucida, Verdana, sans-serif
+  background: white url(../images/base/page_bg.gif) repeat-x left top
+  margin: 0px
+  padding: 0px
+  font-size: 75%
+
+// Global styles
+// ***********************************************************************************************************
+
+a
+  text-decoration: none
+  color: #427f0b
+
+  &.iconed
+    margin-left: 3px
+    margin-bottom: 10px
+
+  &:hover, &.function_link
+    text-decoration: underline
+
+p
+  font-family: "Lucida Grande", Lucida, Verdana, sans-serif
+  color: #444
+  text-decoration: none
+  word-spacing: normal
+  text-align: left
+  letter-spacing: 0
+  line-height: 1.4em
+  padding: 0px 0 15px 0
+  &.tags
+    text-align: justify
+  &.bordered
+    background-color: #F3F3F3
+    border: 1px solid #DDD
+    padding: 10px
+  &.caption
+    padding-left: 10px
+    margin-bottom: 20px
+  &.url
+    color: #427f0b
+  &.tag_list
+    padding: 3px 0
+    color: #999
+  &.small-url
+    padding: 0
+    margin: 0
+    color: #999
+  &.tag_list a
+    color: #666
+    text-decoration: none
+    &:hover
+      color: #FFF
+  &.command_title
+    font-weight: bold
+    padding: 0
+    a
+      text-decoration: none
+
+  a
+    text-decoration: underline
+    color: #427f0b
+    padding-right: 2px
+    padding-left: 2px
+
+    &:hover
+      text-decoration: none
+      background-color: #427f0b
+      color: white
+
+code
+  color: #000
+  background-color: #f1f1f1
+  padding: 2px
+  border: 1px solid #cccccc
+
+
+h1, h2, h3, h4
+  font-family: "museo_sans_500", "Trebuchet MS", "Trebuchet-MS", "Lucida Grande", Lucida, Verdana
+  color: #333
+  text-align: left
+  clear: both
+
+h1
+  line-height: 1.3em
+  font-size: 1.8em
+  margin: 20px 0 10px 0
+  color: #427f0b
+
+  &.inline
+    display: inline
+    width: 65%
+    float: left
+    margin-bottom: 2px
+
+h2
+  line-height: 1.2em
+  font-size: 1.5em
+  margin: 10px 0 3px 0
+  color: #333
+
+  a
+    color: #666
+
+h3
+  line-height: 1em
+  font-size: 1.3em
+  margin: 15px 0 0px 0
+  color: #444
+
+// Errors and Warnings
+
+.flash-msg
+  border: 1px solid #76191a
+  padding: 8px
+  color: #000
+  a
+    color: white
+    font-weight: bold
+    text-decoration: underline
+
+.notice
+  background-color: #427f0b
+  color: white
+  border-color: #009d20
+
+.warning
+  background-color: #ed2700
+  color: white
+  border-color: #700
+
+
+#errors
+  width: 500px
+  background: #FCFAE1 url(../images/icons/error.png) no-repeat 5px 12px
+  border: 1px solid red
+  padding: 10px 10px 10px 35px
+  color: #000
+  color: red
+
+  p
+    margin: 0
+    padding: 0
+    color: red
+
+  ul
+    margin: 5px 0 0 0
+
+  li
+    color: black
+    font-weight: bold
+    list-style-type: disc
+    padding: 5px
+
+ul
+  &.normal
+    list-style-type: disc
+    padding-left: 15px
+    color: #444
+
+    li
+      padding-bottom: 10px
+      list-style-position: outside
+      line-height: 1.3em
+
+  &.users
+    list-style-type: none
+    padding-left: 0px
+    color: #444
+
+    li
+      padding-bottom: 10px
+      list-style-position: outside
+      line-height: .9em
+      
+ol.normal
+  margin-left: 5px
+  list-style-type: decimal
+  padding-left: 15px
+  color: #444
+  list-style-position: inside
+
+  li
+    padding: 10px 0 10px 0
+    list-style-position: outside
+    line-height: 1.7em
+    border-bottom: thin solid #CCC
+    p
+      margin: 0
+      padding: 0
+      line-height: 1.7em
+
+
+
+#url_options_descriptions li
+  list-style-type: disc
+  list-style-position: inside
+  margin-bottom: 10px
+
+#option_types ul.normal li, #option_basics ul.normal li, #tweaking_options ul.normal li
+  line-height: 170%
+
+
+// OPTIONS
+// ***********************************************************************************************************
+
+// This is for the lists that are typically within the rows of the tables 
+
+ul.options li
+  display: inline
+  float: left
+  padding: 2px 0px 2px 0px
+  a
+    padding: 0px 10px 6px 20px
+  &.no_icon
+    padding: 0 2px 0 2px
+    a
+      padding: 0
+
+
+ul
+  &.bolder li a
+    font-weight: bold
+
+  &.options
+    li
+      &.add
+        background: url(../images/icons/add.png) no-repeat left center
+      &.edit
+        background: url(../images/icons/edit.png) no-repeat left center
+      &.delete
+        background: url(../images/icons/delete.png) no-repeat left center
+      &.search
+        background: url(../images/icons/search.png) no-repeat left center
+      &.refresh
+        background: url(../images/icons/arrow_refresh.png) no-repeat left center
+      &.command
+        background: url(../images/icons/cog.png) no-repeat left center
+      &.check
+        background: url(../images/icons/tick.png) no-repeat left center
+      &.add a, &.approve a, &.reserve a
+        color: #427f0b
+      &.edit a, &.expore a, &.search a, &.check
+        color: saddlebrown
+      &.delete a, &.reject a
+        color: red
+
+    &.header
+      margin-top: 30px
+      float: right
+      width: 30%
+      text-align: right
+
+.commands_right_header
+  margin-top: 30px
+  float: right
+  width: 45%
+  text-align: left
+  color: #427f0b
+
+ul.options
+  &.header li
+    float: none
+
+  &.toolbar
+    float: none
+    overflow: hidden
+    display: block
+
+    li
+      clear: both
+      padding-top: 8px
+      padding-bottom: 8px
+
+// MISC
+// ***********************************************************************************************************
+
+hr
+  opacity: .30
+  clear: both
+  margin: 0
+  padding: 0
+
+.justified
+  text-align: justify
+
+.reduced
+  font-size: 90%
+
+.faded
+  color: #999
+
+.option_box
+  border: 1px dotted #427f0b
+  padding: 5px
+
+.option_toggle_links
+  text-align: left
+  padding: 0px
+  margin: 0px
+
+.spinner
+  background: url(../images/spinner.gif) no-repeat 0 center
+  vertical-align: middle
+
+#user_command_url_box .selected
+  background: yellow
+  border: 1px solid
+
+
+
+// Layout
+// ***********************************************************************************************************
+
+.container
+  margin: 0px auto 80px auto
+  padding: 0px
+  position: relative
+  width: 980px
+
+
+#header
+  height: 80px
+  margin: 0pt
+  padding: 0pt
+  position: relative
+
+
+#logo
+  padding: 17px 0 5px 0
+  color: white
+  font-size: 2em
+
+  a
+    font-family: "museo_sans_500", "Trebuchet MS", "Trebuchet-MS", "Lucida Grande", Lucida, Verdana
+    height: 20px
+    color: white
+
+
+#header_search
+  position: absolute
+  top: 27px
+  right: 5px
+  width: 430px
+  text-align: right
+
+  input
+    height: 12px
+    vertical-align: middle
+
+
+#mininav
+  position: absolute
+  top: 25px
+  right: 5px
+  ul
+    float: right
+    li
+      float: left
+      color: #666
+      font-size: .9em
+      padding: 1px 10px 3px 10px
+      border-right: 1px solid #555
+      &.last
+        padding-right: 0
+        border-right: 0
+      a
+        font-weight: normal
+        color: #999
+        text-decoration: none
+        &.bold
+          font-weight: bold
+        &.underlined, &:hover, &.active
+          text-decoration: underline
+          color: white
+
+
+
+
+#content
+  margin-bottom: 20px
+  margin-top: 10px
+  width: 980px
+
+
+#primary
+  float: left
+  width: 600px
+  margin: 0 30px 80px 0
+
+#secondary
+  float: left
+  width: 330px
+  margin: 0 0 80px 0
+
+  &.boxed
+    width: 320px
+    padding: 0 10px 0 10px
+    border: 1px solid #DDDDCC
+    background-color: #FFFFEE
+    
+  ul.toc
+    margin: 0
+    li
+      border-bottom: 1px solid #DDD
+      padding: 4px 4px
+      &.last
+        border: none
+
+div.admin
+  color = !admin_color
+  background-color = !admin_bg_color
+  padding: 10px
+  border: 1px solid black
+  border-color = !admin_border_color
+  h1, h2
+    margin: 0
+    padding: 5px 0
+  h1, h2, p, a
+    color = !admin_color
+
+div.tip
+  float: none
+  overflow: hidden
+  color = !tip_color
+  background-color = !tip_bg_color
+  padding: 10px
+  border: 1px solid black
+  border-color = !tip_border_color
+  h1, h2
+    margin: 0
+    padding: 5px 0
+  h1, h2, p, a
+    color = !tip_color
+  ul
+    list-style-type: disc
+    margin: 5px 0 5px 15px
+    padding: 0
+    li
+      padding: 4px 0
+      margin: 0
+      
+// Tables
+// ***********************************************************************************************************
+
+table
+  width: 100%
+  border-collapse: collapse
+
+  &.top_spaced
+    margin-top: 25px
+    
+  tr
+    &.offset
+      // background-color: #F5F5F5
+
+    th, td
+      border-bottom: 1px solid #CCC
+      padding: 6px
+
+    th
+      color: #999
+      color: #999
+      b
+        color: #333
+        
+    td
+      vertical-align: middle
+      &.parametric
+        background: url(../images/icons/search.png) no-repeat 7px center
+        padding-left: 30px
+      &.shortcut
+        background: url(../images/icons/shortcut.png) no-repeat 7px center
+        padding-left: 30px
+      &.bookmarklet
+        background: url(../images/icons/bookmarklet.png) no-repeat 7px center
+        padding-left: 30px
+      a
+        color: #444
+        font-weight: bold
+      &.weak
+        a
+          font-weight: normal
+      
+      ul.options
+        visibility: hidden
+        
+    &:hover
+      td
+        background-color: #F0F0F0
+        ul.options
+          visibility: visible
+        &.weak
+          color: black
+          a
+            font-weight: normal
+        a
+          color: black
+
+div.browser_setup
+
+  h2
+    padding: 15px 0 0 50px
+    height: 35px
+    
+  &.firefox h2
+    background: url(../images/icons/browser/firefox.png) no-repeat left center
+  &.chrome h2
+    background: url(../images/icons/browser/chrome.png) no-repeat left center
+  &.safari h2
+    background: url(../images/icons/browser/safari.png) no-repeat left center
+  &.camino h2
+    background: url(../images/icons/browser/camino.png) no-repeat left center
+  &.ie8 h2
+    background: url(../images/icons/browser/ie8.png) no-repeat left center
+  &.ie7 h2
+    background: url(../images/icons/browser/ie7.png) no-repeat left center
+  &.ie6 h2
+    background: url(../images/icons/browser/ie6.png) no-repeat left center
+  &.opera h2
+    background: url(../images/icons/browser/opera.png) no-repeat left center
+    
+ul.browser_toc
+
+  li
+    border: 1px solid transparent
+    a
+      color: black
+      display: block
+      padding: 15px 0 0 52px
+      height: 35px
+      background: url(../images/icons/browser/firefox.png) no-repeat 10px center
+      &.firefox
+        background-image: url(../images/icons/browser/firefox.png)
+      &.chrome
+        background-image: url(../images/icons/browser/chrome.png)
+      &.safari
+        background-image: url(../images/icons/browser/safari.png)
+      &.camino
+        background-image: url(../images/icons/browser/camino.png)
+      &.ie8
+        background-image: url(../images/icons/browser/ie8.png)
+      &.ie7
+        background-image: url(../images/icons/browser/ie7.png)
+      &.ie6
+        background-image: url(../images/icons/browser/ie6.png)
+      &.opera
+        background-image: url(../images/icons/browser/opera.png)
+        
+    &:hover
+      background-color: #F0F0F0
+      border: 1px solid #DDD
+      
+
+
+#footer
+  float: none
+  clear: both
+  overflow: hidden
+  padding: 20px 0 10px 0
+  text-align: center
+  
+  ul#footer_nav
+    float: none
+    clear: both
+    overflow: hidden
+    margin: 0
+    padding: 0
+    li
+      float: left
+      color: #777
+      padding: 2px 8px
+      border-right: 1px solid #CCC
+      &.first
+        padding-left: 0
+      &.last
+        padding-right: 0
+        border-right: 0
+      a
+        color: #777
+        text-decoration: none
+        &:hover, &.active
+          text-decoration: underline
+      
+.pagination
+  width: 100%
+  text-align: center
+  padding: 3px
+  margin: 15px 3px
+
+  a
+    padding: 2px 5px 2px 5px
+    margin: 2px
+    border: 1px solid #DDDDDD
+    text-decoration: none
+    color: #427f0b
+    background: none
+
+    &:hover, &:active
+      border: 1px solid #427f0b
+      color: #FFF
+      text-decoration: none
+      background-color: #427f0b
+
+  span
+    &.current
+      padding: 2px 5px 2px 5px
+      margin: 2px
+      border: 1px solid #427f0b
+      font-weight: bold
+      background-color: #427f0b
+      color: #FFF
+
+    &.disabled
+      padding: 2px 5px 2px 5px
+      margin: 2px
+      border: 1px solid #eee
+      color: #ddd
+
+div.msg
+  padding: 10px
+  border: 1px solid saddlebrown
+  background-color: #FFFFEE
+  overflow: hidden
+  ul li
+    padding-left: 22px
+    a
+      padding: 0px
+      font-weight: bold
+  p
+    padding-bottom: 10px
+
+
+.weak
+  color: #888
+
+.centered
+  text-align: center
+
+.no_padding
+  padding: 0
+
+.special_field
+  display: none
+
+#command_description_box, #user_command_description_box, .description_box
+  background-color: #F5F5F5
+  border: 1px solid #DDD
+  padding: 5px 10px
+
+#command_description_box p, #user_command_description_box p
+
+
+#primary .indent
+  margin-left: 20px

@@ -1,0 +1,69 @@
+<%- set_header :title=>"#{@user_command.name} for #{@user_command.user.login}", :description=>"#{@user_command.user.login}'s user command -  #{@user_command.description}" -%>
+<%= javascript_tag "$('header_search_query').value = '#{@user_command.command.keyword}'"%>
+
+<h1 class="inline">
+	<%= basic_user_command_link @user_command %>
+</h1>
+
+<% if logged_in? %>
+	<%= user_command_actions @user_command, :with_copy=>true, :class=>'options header', :action=>'show' %>
+<% end %>
+
+<hr />
+<p class="small-url">
+	<%= truncate_with_more h(@user_command.url), 150 %>
+</p>
+
+<div id="primary">
+	<%= render :partial=>'show_left_column' %>
+</div>
+
+
+<div id="secondary">
+	<% command = @user_command.command %>
+	<h2>
+		<%= render_favicon_for_command @user_command %>
+		Command Info
+	</h2>
+	<p>Created by <%= user_link @user_command.user %> on <%= @user_command.created_at.to_s(:medium) %>.
+	</p>
+	<p><b>Command:</b> <%= basic_command_link @user_command.command %></p>
+	
+	<p><b>URL Status:</b>
+		<%= url_status(@user_command) %>
+	</p>
+	
+	<p><b>Original Keyword:</b> <%=h command.keyword %></p>	
+	
+	<p><b>User's Keyword:</b> <%=h @user_command.keyword %></p>	
+	
+	<p><b>Type:</b> <%= command_type_image @user_command.command_type.pluralize %> <%= @user_command.command_type.capitalize %> <%= "(uses POST)" if @user_command.http_post? %></p>
+	
+	<p><b>Visible to Public:</b> <%= @user_command.public? ? "Yes" : "No" %></p>
+	
+	<p><b>Url Encoded: <%= @user_command.url_encode? ? "Yes" : "No"%></b></p>
+	
+	<p><b>Queries visible to Public:</b> <%= @user_command.public_queries? ? "Yes" : "No" %></p>
+
+	<p><b>Queries saved:</b> <%= @user_command.save_queries? ? "Yes" : "No" %></p>
+	
+	<p><b>Last Used:</b> <%= time_ago_in_words_or_date @user_command.updated_at %></p>
+
+	<p><b>Owner queries:</b>
+		<span style="font-size: 12px">
+		<%= @user_command.queries_count.zero? || (! can_view_queries?) ? "#{@user_command.queries_count} queries" :
+		 link_to("#{@user_command.queries_count} queries", user_command_queries_path(@user_command))%></span>
+	</p>
+	
+	<% unless @user_command.tags.empty? %>	
+		<p><b>Tags:</b> <%= @user_command.tag_list.map{|tag| link_to(tag, tagged_user_commands_path(@user_command.user, tag))}.join(" ") %></p>	
+	<% end %>
+	
+	<% if @user_command.public? && ! @related_user_commands.empty? %>
+		<h2>Other Users of this Command</h2>
+		<%= user_command_table(@related_user_commands, :columns=>[:user, :queries_count]) %>
+		<%= table_link_to "View all related user commands", command_user_commands_path(@user_command.command) %>
+	<% end %>
+
+	
+</div>

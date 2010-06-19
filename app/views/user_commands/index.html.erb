@@ -1,0 +1,55 @@
+<%- title = set_breadcrumb_title; title += " - " + sort_description if params[:sort]; set_header :title=>title -%>
+<% if logged_in? %>
+	<div style="float: right">
+	<% form_tag search_user_commands_path, :method=>:get  do %>
+	<label for="q">Search your user commands by url or keyword</label>
+		<%= text_field_tag 'q' %>
+		<%= submit_tag 'Search' %>
+	<% end %>
+	</div>
+<% end %>
+<h1 class="inline">
+	<% if current_page_matches?(search_user_commands_path) || current_page_matches?(search_all_commands_path) %>
+		Search Results for '<%= params[:q] %>'
+	<% else %>
+		<%= @user_commands.empty? ? 'No' : (@user ? whose_commands(@user_commands.first) : "All") %> 
+		<%= 'and private' if admin? && @user && ! current_user? %> 
+		<%= link_to @command.keyword, command_path(@command) if @command %>
+		user commands
+		<%= sort_description if params[:sort ]%>
+		<%= "tagged with '#{@tags.join("+").gsub("+", "' and '")}'" unless @tags.blank? %>
+	<% end %>
+	<span class="pagination_description">(<%= pagination_description @user_commands %>)</span>
+</h1>
+
+<ul class="bolder options header">
+	
+	<% if logged_in? && ! current_user? %>
+		<li class="search"><%= link_to 'Yours', (@tags.blank? ? specific_user_commands_path(current_user) : tagged_user_commands_path(current_user, @tags)) %></li>
+	<% end %>
+	<% if @user %>
+		<% if @tags.blank? %>
+			<%# Hiding all tagged user_commands interface %>
+			<!-- <li class="search"><%# link_to 'All', (@tags.blank? ? user_commands_path : all_tagged_user_commands_path(@tags)) %></li> -->
+			<li class="search"><%= link_to 'All', user_commands_path %></li>
+		<% end %>
+		<% if @tags %>
+		<li><%= link_to "Queries for these commands", user_tagged_queries_path(@user, @tags)%></li>
+		<% end %>
+	<% end %>
+</ul>
+
+
+<hr />
+<%- headers = ["User Command<br/>#{sort_link_up('name') + sort_link_down('name')}", ['Command', {:width=>150}], 
+	["Queries<br/>#{sort_link_up('queries_count') + sort_link_down('queries_count')}", {:width=>30, :class=>'centered'}], 
+	["Keyword<br/>#{sort_link_up('keyword') + sort_link_down('keyword')}", {:width=>70}], 'User',
+	 "Created<br/>#{sort_link_up('created_at') + sort_link_down('created_at')}"]
+  columns = [:name_bolded, :command_bolded, :queries_count, :keyword, :user, :created_at]
+  if logged_in?
+	headers << 'Options'
+	columns << :command_actions
+  end
+-%>
+<%= user_command_table @user_commands, :table=>{:class=>'top_spaced'},:headers=>headers, :columns=>columns %>
+<%= will_paginate @user_commands %>

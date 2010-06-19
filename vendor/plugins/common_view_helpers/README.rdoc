@@ -1,0 +1,38 @@
+= Common View Helpers
+
+A set of view helpers I find myself using in most Rails applications.
+
+== Installation
+
+  cd my_rails_app
+  script/plugin install git://github.com/zeke/common_view_helpers.git
+
+== Summary
+
+  # Use words if within the last week, otherwise use date
+  # Show year if not this year
+  time_ago_in_words_or_date(date,options={})
+  
+  # Output an easily styleable key-value pair
+  info_pair(label, value)  
+
+  # Give this helper an array, and get back a string of <li> elements. 
+  # The first item gets a class of first and the last, well.. last. 
+  # This makes it easier to apply CSS styles to lists, be they ordered or unordered.
+  # http://zeke.tumblr.com/post/98025647/a-nice-little-view-helper-for-generating-list-items
+  convert_to_list_items(items)
+
+  # This works just like link_to, but with one difference..
+  # If the link is to the current page, a class of 'active' is added
+  link(name, options={}, html_options={})
+
+  # Absolute path to an image
+  image_url(source)
+
+  # e.g. http://localhost:3000, or https://productionserver.com
+  base_url
+
+  # Generate a list of column name-value pairs for an AR object
+  list_model_columns(obj)
+
+Copyright (c) 2009 {Zeke Sikelianos}[http://zeke.sikelianos.com], released under the MIT license

@@ -1,0 +1,158 @@
+<div id="primary">
+
+  <h1>Help!</h1>
+
+  <p>Looking for setup instructions? <%= link_to "Here they are", static_page_path('setup') %>.</p>
+
+  <h2>What does Queriac do?</h2>
+  <p>
+  	Simple answer: It lets you type <b>g james brown</b> in your address bar to do a 
+  	Google search for James Brown.
+  </p>
+	
+  <p>Long and fulfilling answer: Queriac could be described as the fusion of Firefox quicksearches 
+  	and del.icio.us. Queriac allows you to manage your quicksearches, shortcuts, and bookmarklets 
+  	by taking them out of your browser profile and onto the web, making them portable, taggable, 
+  	shareable, and generally easier to manage. Ever wanted to know what your friends are looking up in 
+  	Google, or the dictionary, or keep track of your own searches? Queriac makes it easy.
+  </p>
+
+  <h2>What is a quicksearch?</h2>
+  <p>A quicksearch (also called a keymark in Mozilla-speak) allows you to define a keyword for searching a site. For example, a keyworded bookmark could be set up so that a user could type 'g spam and eggs' in your address bar and thereby trigger a Google search for the words "spam and eggs."</p>
+
+  <p>Read more about quicksearches at the <%= nofollow_link_to "Mozilla Developer Center", "http://developer.mozilla.org/en/docs/Bookmark_Keywords" %></p>
+
+  <div id="create_quicksearch">
+  <h2>How do I create a quicksearch?</h2>
+  <p>Creating a quicksearch is easy. It's probably most easily explained with an example, so let's say you want to create a Yahoo quicksearch..</p>
+
+  <ol class="normal">
+  	<li>Go to yahoo.com in your browser.</li>
+  	<li>Search for something; let's say 'dog'</li>
+  	<li>You will be taken to a new page with a URL that looks something like <code>http://search.yahoo.com/search?p=dog</code>. Copy this URL to your clipboard.</li>
+  	<li>Assuming you've <%= link_to "set up your browser for use with Queriac", static_page_path('setup') %>, simply type the word <code>new</code> in your address bar and hit Enter. This will take you to a Queriac page for creating a new command.</li>
+  	<li>Give the command a meaningful name like <code>Yahoo Search</code> and a simple keyword like <code>y</code>.</li>
+  	<li>Paste the URL you copied earlier into the URL field and replace the search portion of the string <i>(dog)</i> with the letter q in parentheses: <code>(q)</code>.</li>
+  	<li>You can optionally write a description of the command and give it some tags, e.g. 'yahoo', 'search', etc..</li>
+  	<li>Save the command and that's it! You can now type <code>y dog</code> in your address bar to do a Yahoo search for 'dog'.</li>
+  </ol>
+
+  <p>Browsing through other users' commands is another great way to get started. Click the <b>'Subscribe'</b> link next to any user's command to add a command to your account. <%= link_to "Click here", "/zeke" %> to visit <%= link_to "Zeke", "/zeke" %>'s profile. He has lots of commands.</p>
+  </div>
+
+  <h2>Some commands to get you started.</h2>
+  <p>
+  	When you created your Queriac account a few commands were generated for you automatically.
+  	Among the more obvious starter commands like a Google quicksearch, there are some commands that give you
+  	quick access to various parts of your account. Once you've got your browser set up per the above instructions, 
+  	type any of the following right into your address bar..
+  </p>
+
+  <p class="caption">&rarr; Type <code>q</code> in the address bar and you'll be taken to your Queriac account page.</p>
+
+  <p class="caption">&rarr; Type <code>new</code> in the address bar and you'll be taken to Queriac's "Create a New Command" page.</p>
+
+  <p class="caption">&rarr; Type <code>show g</code> to view a command's summary page (g for Google Quicksearch in this case), showing you its tags, a list of recent queries you've made with the command, etc.</p>
+
+  <p class="caption">&rarr; Type <code>edit g</code> to edit a command. (again, g as in Google Quicksearch in this example)</p>
+
+  <div id="bookmarklets">
+  	<h2>Using Bookmarklets</h2>
+  	<p>If you want to use bookmarklets through Queriac, you'll need to add the following bookmarklet to your local
+  		bookmarks in your browser. Because of Javascript's client-side nature (see <%= link_to "Same Origin Policy", "http://www.mozilla.org/projects/security/components/same-origin.html" %>), this bookmarklet is needed to download 
+  		the Javascript source from <%= logged_in? ? "your" : link_to("#{User::PUBLIC_USER}'s", user_home_path(User::PUBLIC_USER)) %>
+  		Queriac commands and evaluate it locally.
+  	</p>
+  	<p>
+  		<b>To install:</b> Right-click on the link below and save it as a local bookmark. You'll need to give it a keyword 
+  		(or shortcut in Camino).. something like <code>j</code>. If you don't see the keyword/shortcut column in
+  		your browser's bookmarks window, you'll need to enable it by clicking the little dropdown doohicky on the right
+  		side of the column header.
+  	</p>
+  	<p class="bordered">
+  		<% user_name =  logged_in? ? current_user.login : User::PUBLIC_USER %>
+  		Right-click to install: <a href="javascript:_s=document.createElement('script');_s.type='text/javascript';_s.src='http://queri.ac/<%= user_name %>/%s?js=1';document.getElementsByTagName('head')[0].appendChild(_s);void(0);">Queriac Bookmarklet Enabler</a>
+  	</p>
+  </div>
+
+  <h2>Using Options</h2>
+  <%= link_to "See the tutorial just for options", static_page_path('options_tutorial') %>
+
+  <h2>What is a bookmarklet?</h2>
+  <p>I'm gonna go ahead and steal Wikipedia's definition for this one: "A bookmarklet is a small JavaScript program stored as a URL within a bookmark in most popular web browsers, or stored within a hyperlink on a web page." The following are some generic examples of what bookmarklets can be used for..</p>
+  <ul class="normal">	
+  	<li>Modify the appearance of a web page within the browser (e.g., change font size, background color, etc.).
+  	<li>Extract data from a web page (e.g., hyperlinks, images, text, etc.).</li>
+  	<li>Query a search engine, with search term(s) provided by previously selected text, or by a dialog box.</li>
+  	<li>Submit the current page to a link validation service, or translation service.</li>
+  </ul>
+
+  <p>Read more about bookmarklets on Wikipedia: <%= nofollow_link_to "http://en.wikipedia.org/wiki/Bookmarklet" %></p>
+
+
+  <h2>What is a shortcut?</h2>
+  <p>
+  	This one's easy. A shortcut lets you create a keyword for a page you often visit. For example, 
+  	you could create a Queriac command for your favorite site, e.g. 
+  	<b>http://www.myfavoritewebsite.com/with/long/forgettable/address/</b> and give it a nice short keyword, 
+  	say <b>fave</b>. Now you can type <b>fave</b> in the address bar and voila! Up pops 
+  	<b>http://www.myfavoritewebsite.com/with/long/forgettable/address/</b>!
+  </p>
+
+  <h2>Sounds great, but I'm paranoid about privacy..</h2>
+  <p>
+  	Don't want people to see what you're searching for? Queriac lets you toggle the publicity of 
+  	your commands individually and the queries you make with them. If you're really paranoid, you
+  	can tell Queriac not to log your queries at all, so even you won't know what you've searched for.
+  </p>
+
+  <h2>How do I import commands?</h2>
+  <p>You can import commands that are from Firefox/Camino/Mozilla browsers <%= link_to 'here', import_user_commands_path %>.</p>
+
+  <h2 id="command_difference">What is the difference between a command and a user command?</h2>
+  <p>
+  	A command, although initially created by someone, isn't tied to a specific user. Rather, it simply holds the command url
+  	and default options for a command. When a user wants to use a command, they subscribe to it. Subscribing to a command creates
+  	a user command for the user. They can then customize their user command by editing the tags, options, description etc ...
+  	With users grouping around commands	and sharing their knowledge, this site will hopefully one day offer commands that are
+  	maintainable and easily improved for everyone by those who you use them!
+  </p>
+
+  <h2>What's the difference between copying a command and subscribing to one?</h2>
+  <p>
+  	These are both ways of creating user commands from someone else's commands. But they differ in that subscribing to a command ties
+  	your command to the subscribed command while a copy does not. Tying a command to an existing command can be quite helpful since it
+  	joins a subscriber to the other subscribers of a command. This allows for easy sharing of command knowledge between	users. For
+  	example, subscribers can update their commands to their latest command versions on their user command pages.
+  	A temporary advantage a copy has over a subscription, is that it allows the user to fully edit their command but at the cost of
+  	being antisocial. We strongly recommend subscribing to commands as this will encourage sharing knowledge of commands between users.
+  	As Queriac growas, we will add more features to explore the benefits of groups based around commands.
+  </p>
+
+  <h2>If I subscribe to a command, why can't I edit my command's url and/or url options?</h2>
+  <p>
+  	Currently, only creators of a command can modify anything about its url and options.
+  	Command subscribers can modify any of their option fields except for the name and option type fields.
+  	Once we develop a smart way of branching user commands, you'll be able to edit any user command.
+  	In the meantime, copy another command if a command you've subscribed too is too limiting.
+  </p>
+  
+  <h2>I'm ready. How do I set it up?</h2>
+  <% if logged_in? %>
+  	<p>It looks like you're already logged in, so go ahead and proceed to the <%= link_to "setup instructions", static_page_path('setup') %>.</p>
+  <% else %>
+  	<p>
+  		You don't seem to be logged in. First you'll need to <%= link_to "log in", new_session_path %> or 
+  		<%= link_to "create an account", new_user_path %>.
+  	</p>
+  <% end %>
+
+
+</div>
+
+<div id="secondary">
+	<%= render :partial => "/sessions/form" unless logged_in? %>
+	
+	<%= render :partial => "common/support" %>
+	
+</div>

@@ -1,0 +1,18 @@
+<h1 class="inline">Edit Command</h1>
+
+<ul class="options header">
+	<li class="search"><%= link_to 'Show this Command', command_path(@command) %></li>
+</ul>
+<hr />
+
+<%= error_messages_for :command %>
+
+<% form_for(:command, :url => command_path(@command), :html => { :method => :put }) do |f| %>
+
+	<%= render :partial => "command_edit_form", :locals => {:f => f} %>
+
+  <div class="floatkiller">
+    <%= submit_tag "Save Changes", :class => "submit" %>
+  </div>
+  
+<% end %>

@@ -1,0 +1,50 @@
+<h1>Fetch Form</h1>
+
+<%= collapser_for "fetch_form", :autohide => true, :label => "Hide Fetch Form" %>
+<div id="fetch_form">
+	<p/>
+	<%= form_tag(fetch_form_user_commands_path, :method=>:post) %>
+		<%= label_tag 'url' %><br/>
+		<%= text_field_tag :url, nil, :class=>'text', :size=>50 %><br/>
+		<h3 style="text-decoration: underline">OPTIONAL FIELDS</h3><br/>
+		<%= label_tag "form_number"%>
+		<%= text_field_tag "form_number", nil, :size=>3 %><br/>
+		OR<br/>
+		<%= label_tag 'text', 'Form Text' %><br/>
+		<%= text_area_tag :text, nil, :class=>'text', :cols=>50, :rows=>5 %><br/>
+		<%= submit_tag 'Fetch', :class=>'submit'%>
+	</form>
+</div>
+
+<% if @options %>
+	<%= hide "fetch_form" %>
+	<%= expander_for "fetch_form", :autohide => false, :label => "Have another form to fetch?" %>
+
+	<h2>Results for
+		<%= if !params[:url].blank?
+			 'url: ' + h(params[:url])
+			elsif !params[:text].blank?
+				'text'
+			end
+		%>
+	</h2>
+	
+	<% if @action_url %>
+	<h3>Action Url : <%= @action_url %></h3> 
+	<% end %>
+	<% if ! @form['method'].blank? %>
+	<h3>Method: <%= @form['method']%></h3>
+	<% end %>
+
+	<%= active_record_table @options, :columns=>[:param, :option_type, :input_type, :others], 
+		:headers=>[["Param", {:width=>30}], ["Option Type", {:width=>10}], ["Input Type", {:width=>10}], "Others"],
+		:table=>{:style=>'margin-top: 10px'} %>
+		
+	<% if admin? %>
+		<div style="padding-top: 50px">
+		<h3>Fetched Form Text</h3>
+		<%= text_area_tag "scraped_form_text", @form.to_html, :cols=>70, :rows=>10%>
+		</div>
+	<% end %>
+
+<% end %>

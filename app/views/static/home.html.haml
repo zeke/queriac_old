@@ -1,0 +1,73 @@
+#primary
+  %h1
+    Public Queriac Commandline
+  
+  .description_box
+    - form_tag user_command_execute_path(User::PUBLIC_USER, 'search_form'), :method=>:get do
+      = link_to_function 'Some Tips', "$('commandline_tips').toggle()", :class=>'function_link',:style=>"font-size: 10px; color:#427F0B"
+      = text_field_tag 'search_command',nil, :size=>30
+      = submit_tag 'GO'
+      
+    #commandline_tips{ :style => "padding-left: 20px; padding-top: 10px; display:none" }
+      %ul.normal{ :style => "list-style-type: square" }
+        %li
+          Commands are given in the form [command] [options] [arguments].
+          %br
+          For example, if you want to search google news for facts,
+          %br
+          try
+          = link_to_function("g -type news facts", "$('search_command').value = 'g -type news facts'", :class=>'function_link')
+          or in its aliased form
+          = link_to_function("g -t n facts", "$('search_command').value = 'g -t n facts'", :class=>'function_link') + "."
+        %li
+          You can get help for any command by appending a -h or -help option to it ie
+          = link_to_function("g -h", "$('search_command').value = 'g -h'", :class=>'function_link') + "."
+          %br
+        %li
+          Any public command created by our users can be used from here within 24 hours of its creation. Check out
+          = link_to("our repository of commands", commands_path) + "."
+        %li
+          Bookmarklets cannot be executed from here. You can still try them anonymously by 
+          = link_to('setting up your browser', static_page_path('setup'))
+          to point to 
+          = link_to('our public user', user_home_path(User::PUBLIC_USER))
+          and then
+          installing
+          = link_to("our bookmarklet enabler", static_page_path('tutorial') + '#bookmarklets') + "."
+          
+  %h1
+    = link_to("Latest User Commands", user_commands_path, :title=>"Commands that users have subscribe to.")
+  = user_command_table @latest_user_commands, :columns=>[:name, :user, :created_at]
+  
+  %h1
+    = link_to "Latest Revised Commands", commands_path(:sort=>'down_by_revised_at'), :title=>"Commands that have had their functionality revised."
+  = command_table @latest_revised_commands, :columns=>[:name, :user, :revised_at]
+  
+  %h1
+    = link_to "Latest Commands", commands_path, :title=>"Commands that have just been created."
+  = command_table @latest_commands, :columns=>[:name, :user, :created_at]
+  
+#secondary
+  %h1
+    Manifesto
+  %p
+    Queriac allows you to manage your quicksearches, shortcuts, and bookmarklets
+    by taking them out of your browser profile and onto the web, making them portable,
+    taggable, shareable, and generally easier to manage. Drawing from the concept of
+    = nofollow_link_to("Yubnub", "http://yubnub.org")
+    and extending it in the spirit of
+    = nofollow_link_to("Delicious", "http://delicious.com") + ","
+    Queriac effectively turns your browser's address bar into a flexible command line.
+  %p
+    To start using Queriac, 
+    = link_to("create an account", new_user_path) + "."
+    It's easy, free, and awesome.
+
+  %h1
+    Latest Public Queries
+  = query_table @queries, :columns=>[:command_icon, :user, :query_string], :headers=>["&nbsp;", "User", "Query"]
+  = table_link_to "View all queries", queries_path
+
+  = render :partial => "common/support"
+    
+  = render :partial => "users/user_list"

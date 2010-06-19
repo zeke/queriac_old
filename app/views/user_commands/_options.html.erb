@@ -1,0 +1,77 @@
+<% if options.empty? %>
+ No options detected.
+<% else %>
+<% options.each_with_index do |option, i| %>
+	<% toggled_columns = [:alias, :description, :value_aliases, :value_prefix, :param, :private]
+		is_visible = {}
+		toggled_columns.each do |e|
+			is_visible[e] = !option.send(e).blank?
+		end
+	%>
+	<%# disable if subscriber is editing or if user is subscribing %>
+	<% option_fields_disabled = (!@user_command.new_record? && !@user_command.command_owned_by?(current_user) &&
+	 !current_user.is_admin?) || (@user_command.new_record? && subscribe_action?) || params[:is_subscribe] %>
+	<div id="url_option_<%= i%>"class="option_box">
+	<% fields_for "user_command[url_options][]", option, :index=>i do |f1| %>
+		<div class="option_toggle_links">
+			<% unless option_fields_disabled %>
+			<%= link_to_function image_tag("icons/cancel.png", :title=>"Remove option"), %[$('url_option_#{i}').fade(); 
+			setTimeout("$('url_option_#{i}').remove()", 2000);], :style=>'padding-right: 10px' %>
+			<% end %>
+			<%= link_to_function 'Toggle param', "$('option_box_param_#{i}').toggle()"%> |
+			<%= link_to_function 'Toggle alias', "$('option_box_alias_#{i}').toggle()"%> |
+			<%= link_to_function 'Toggle description', "$('option_box_description_#{i}').toggle()"%> |
+			<%= link_to_function 'Toggle value aliases', "$('option_box_value_aliases_#{i}').toggle()"%> |
+			<%= link_to_function 'Toggle value prefix', "$('option_box_value_prefix_#{i}').toggle()"%> |
+			<%= link_to_function 'Toggle private', "$('option_box_private_#{i}').toggle()"%>
+		</div>
+		<div class="floater">
+			<%= f1.label :name %><br/>
+		  	<%= f1.text_field :name, :size=>10, :disabled=>option_fields_disabled %>
+			<%# needed to identify options %>
+			<%= f1.hidden_field :name if option_fields_disabled %>
+		</div>
+		<div class="floater">
+			<%= f1.label :option_type %><br/>
+			<%= f1.select :option_type, Option::OPTION_TYPES, {}, :disabled=>option_fields_disabled,
+			 	:index=>i, :onchange=>remote_function(:url=>change_option_type_fields_user_commands_path(:index=>i),
+				:with => %['option_type=' + this.value], :before=>"$('option_type_#{i}_spinner').show()",
+				:complete=>"$('option_type_#{i}_spinner').hide()"
+			)
+			%>
+			<%= f1.hidden_field :option_type if option_fields_disabled %>
+			<%= ajax_spinner "option_type_#{i}" %>
+		</div>
+		<div id="option_box_param_<%= i %>" style="<%= 'display:none' unless is_visible[:param] %>" class="floater">
+			<%= f1.label :param %><br/>
+			<%= f1.text_field :param, :size=>10, :disabled=>option_fields_disabled %>
+			<%= f1.hidden_field :param if option_fields_disabled %>
+		</div>
+		<div id="option_box_alias_<%= i %>" style="<%= 'display:none' unless is_visible[:alias] %>" class="floater">
+			<%= f1.label :alias %><br/>
+			<%= f1.text_field :alias, :size=>10 %>
+		</div>
+		<div id="option_box_private_<%= i %>" style="<%= 'display:none' unless is_visible[:private] %>" class="floater">
+			<%= f1.label :private %><br/>
+			<%= f1.check_box :private %>
+		</div>
+		<span id="option_type_specific_fields_<%= i%>">
+		<%= option_type_specific_fields option.option_type, f1, :index=>i, :option_obj=>option %>
+		</span>
+		<div id="option_box_value_prefix_<%= i %>" style="<%= 'display:none' unless is_visible[:value_prefix] %>" class="floater">
+			<%= f1.label :value_prefix %><br/>
+			<%= f1.text_field :value_prefix, :size=>10 %>
+		</div>
+		<div id="option_box_value_aliases_<%= i %>" style="<%= 'display:none' unless is_visible[:value_aliases] %>" class="floater">
+			<%= f1.label :value_aliases %><br/>
+			<%= f1.text_area :value_aliases, :cols=>40, :rows=>2, :wrap=>'virtual'%>
+		</div>
+		<div id="option_box_description_<%= i %>" style="<%= 'display:none' unless is_visible[:description] %>" class="floater">
+			<%= f1.label :description %><br/>
+			<%= f1.text_field :description, :size=>40%>
+		</div>
+		<div class="floatkiller"></div>
+	<% end %>
+	</div>
+<% end %>
+<% end %>

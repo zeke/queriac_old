@@ -1,0 +1,95 @@
+<% if subscribe_action? %>
+	<div class="floatkiller" style="padding: 0px; margin: 0px">
+		<span style="font-size:12px">If you're not interested in personalizing your command, simply</span>
+		<%= submit_tag "Subscribe", :class => "submit" %>
+	</div>
+	<%= hidden_field_tag 'user_command[command_id]', @command_id, :id=>'user_command_command_id' %>
+	<%= hidden_field_tag 'is_subscribe', 1 %>
+	<div style="font-size: 12px">
+		Since you are subscribing to an existing command, certain fields cannot be edited ie url.
+	</div>
+<% end %>
+<% @disabled_fields ||= [] %>
+
+<div class="floater">
+  <%= f.label :name %><br />
+  <%= f.text_field :name, :size => 50  %>
+</div>
+
+<div class="floater">
+  <%= f.label :keyword %><br />
+  <%= f.text_field :keyword, :size => 14 %>
+</div>
+
+<%= render :partial=>'url_and_options_fields', :locals=>{:f=>f} %>
+
+<div class="floatkiller">
+  <%= f.label :description, "Description (If command is complex, please provide an explanation of it and a sample query)" %><br />
+  <%= f.text_area :description, :cols => 100, :rows => 12  %>
+</div>
+
+<div>
+	<label for="tags">Tags (separated by spaces)</label><br />
+	
+	<% 
+		if params[:tags]
+			tag_list = params[:tags]
+		else
+			tag_list = @user_command.tag_string
+		end
+	%>
+	
+  <%= text_field_tag :tags, tag_list, {:size => 90} %><br/>
+  <!-- TODO: Fix this tags issue 
+  <p>
+    Your tags: <span style="font-style:italic">
+    <%# truncate_with_more current_user.tags.map(&:name).uniq.sort.join(", "), 100, :tag_type=>'span' %></span>
+  </p>
+  -->
+</div>
+	
+<div class="tip">
+  
+  <h2>Command Options</h2>
+  
+  <ul>  
+    <% if @user_command.new_record? && !subscribe_action? %>
+    	<li>Once a command is public and is used by more than one person it must remain public.</li>
+    <% elsif ! @user_command.new_record? && @user_command.command_owned_by?(current_user) %>
+    	<li>As the creator of this command, the <b>public</b>, <b>HTTP Post</b> and <b>URL Encode</b> options are updated for both the command and your user command.</li>
+    	<% unless @user_command.command_editable? %>
+        <li>
+          Since the command is public and being used by other people, you can't edit the public state of the command.
+    	    You can always create a separate private version of the command by copying this command and making it private.
+    	  </li>
+    	<% end %>
+    <% end %>
+  </ul>
+  
+  <% unless @disabled_fields.include?(:public) %>
+  	<div class="floater">
+  	  <%= f.check_box :public %> <%= f.label :public, "Share this command with the public" %>
+  	</div>
+  <% end %>
+
+  <div class="floater">
+    <%= f.check_box :public_queries %> <%= f.label :public_queries, "Show my queries", :id => "command_public_queries_label" %>
+  </div>
+
+  <div class="floater">
+    <%= f.check_box :anonymous_queries %> <%= f.label :anonymous_queries, "Allow anonymous queries" %>
+  </div>
+
+  <div class="floater">
+    <%= f.check_box :save_queries %> <%= f.label :save_queries, "Save my queries" %>
+  </div>
+
+  <div class="floater">
+    <%= f.check_box :http_post %> <%= f.label :http_post, "Use HTTP POST" %>
+  </div>
+
+  <div class="floater">
+    <%= f.check_box :url_encode %> <%= f.label :url_encode, "Use URL Encoding" %>
+  </div>
+  
+</div>

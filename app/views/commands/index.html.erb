@@ -1,0 +1,66 @@
+<%- title = ''
+   title += @command_type.singularize.titleize if @command_type
+   if current_page_matches?(search_all_commands_path)
+     title += " Search Results for '#{params[:q]}'"
+   else
+	 title += " Commands"
+   end
+   title += " tagged with '#{@tags.join("+").gsub("+", "' and '")}'" if ! @tags.blank?
+   title += " " + sort_description if params[:sort ]
+
+   set_header :title=>title
+-%>
+<% if false #logged_in? %>
+	<div style="float: right">
+	<% form_tag search_all_commands_path, :method=>:get  do %>
+	<label for="q">Search commands by url or keyword</label>
+		<%= text_field_tag 'q' %>
+		<%= submit_tag 'Search' %>
+	<% end %>
+	</div>
+<% end %>
+
+<h1 class="inline" style="width: 50%">
+	<%= command_type_image(@command_type) if @command_type %>
+	<%= title %>
+	<span class="pagination_description">(<%= pagination_description @commands %>)</span>
+</h1>
+<% if @tags %>
+	<% if !@tags.empty? && description = tag_description(@tags)%>
+	<div class="commands_right_header">
+		<b>Tag Description</b>: <%= h description %>
+	</div>
+	<% end %>
+<% else %>
+<ul class="options header" style="width: 45%; font-size: 12px">
+	<span style="color:#427f0b; font-weight: bold">Filter By:</span>
+	<% if current_page_matches?(search_all_commands_path)%>
+		<%= content_tag(:li, link_to("None", search_all_commands_path(params.slice(:q)), :style=>'padding:0px'))%> |
+		<%= Command::TYPES.map {|e| 
+			content_tag(:li, link_to(e.to_s.titleize, search_all_commands_path(params.slice(:q).merge(:type=>e)), :style=>"padding: 0px", :title=>command_type_title(e)))
+			}.join(" | ")%>
+	<% else %>
+		<%= content_tag(:li, link_to("None", commands_path, :style=>'padding:0px'))%> |
+		<%= Command::TYPES.map {|e| 
+			content_tag(:li, link_to(e.to_s.titleize, command_type_commands_path(e), :style=>"padding: 0px", :title=>command_type_title(e)))
+			}.join(" | ")%>
+	<% end %>
+</ul>
+<% end %>
+<hr />
+
+<%-
+  headers = ["Name<br/>#{sort_link_up('name') + sort_link_down('name')}", ["Users<br/>#{sort_link_up('users_count')+sort_link_down('users_count')}", {:width=>40}], 
+	["Queries<br/>#{sort_link_up('queries_count_all') + sort_link_down('queries_count_all')}",{:width=>30, :class=>'centered'}],
+	["Keyword<br/>#{sort_link_up('keyword') + sort_link_down('keyword')}", {:width=>70,:class=>'centered'}],
+	"Creator", "Created<br/>#{sort_link_up('created_at')+sort_link_down('created_at')}", 
+	["Revised<br>#{sort_link_up('revised_at')+sort_link_down('revised_at')}", {:width=>70}]]
+	columns = [:name_bolded, :users_count, :queries_count, :keyword, :user, :created_at, :revised_at]
+	if logged_in?
+		headers << ["Options", {:width=>110}]
+		columns << :command_actions
+	end
+-%>
+<%= command_table @commands, :headers=>headers, :columns=>columns, :table=>{:class=>'top_spaced'}%>
+
+<%= will_paginate @commands %>

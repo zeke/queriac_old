@@ -1,0 +1,10 @@
+<h1><%= title %></h1>
+
+<%- columns = [:name, :keyword, :queries_count]
+headers = ['Command', ["Keyword"], ["Queries", {:class=>'centered'}]]
+if logged_in?
+	columns += [:command_actions]
+	headers << ['Options', {:width => 50, :class=>'centered'}]
+end
+-%>
+<%= user_command_table commands, :columns=>columns, :headers =>headers %>

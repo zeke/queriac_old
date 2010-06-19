@@ -1,0 +1,220 @@
+#primary
+
+  %h1 Setup Instructions
+  %p
+    This page will help you get your browser set up for use with Queriac. Once you're set up,
+    check out the
+    = link_to "help page", static_page_path('help')
+    to learn about creating commands and bookmarklets.
+
+
+  %div.browser_setup.firefox
+  
+    %h2 Firefox Option A: Add to Location Bar
+
+    %ol.normal
+      %li
+        :markdown
+          Open Firefox and type `about:config` in the address bar. You may get a warning about being 
+          careful. That's fine. Carry on. This will open up a big list of browser preferences.
+      %li
+        :markdown
+          In the filter field, type `keyword` . This should filter the list down to just a couple of items.
+      %li
+        :markdown
+          Make sure `keyword.enabled` is set to `true`.
+      %li
+        :markdown
+          Set `keyword.URL` to
+        - if logged_in?
+          %code= user_home_url(current_user)
+        - else
+          %code= user_home_url('youraccountname')
+          , using your account name of course.
+        %b Don't forget the trailing slash!
+      %li
+        That's it. Visit your account page at
+        - if logged_in?
+          = link_to(user_home_url(current_user), current_user.login)
+        - else
+          %i= user_home_url('youraccountname')
+        to start adding commands.
+        
+    - if logged_in?
+        
+      %h2 Firefox Option B: Add to Search Bar
+      
+      = link_to_function(image_tag("screenshots/firefox_opensearch_screenshot.png"), "addp('#{opensearch_user_url(current_user)}')")
+
+      %ol.normal
+        %li= link_to_function("Click here to install Queriac in your search bar.", "addp('#{opensearch_user_url(current_user)}')")
+
+  %div.browser_setup.chrome.inactive
+
+    %h2 Chrome
+    %p
+      Coming soon!
+
+  %div.browser_setup.safari.inactive
+    %h2 Safari 3+ on Mac OS X
+    %p
+      Apple is 
+      = nofollow_link_to "in bed with Google", "http://blogs.zdnet.com/BTL/?p=5356"
+      in terms of the Safari search bar, so configuring Safari for Queriac requires a little finagling, 
+      but it's still pretty easy. You'll need to install
+      = nofollow_link_to("Keywurl", "http://purefiction.net/keywurl/") + ","
+      a free 
+      = nofollow_link_to("SIMBL", "http://www.culater.net/software/SIMBL/SIMBL.php")
+      plugin that lets you customize Safari's address bar.
+    %ol.normal
+      %li
+        = nofollow_link_to("Download and install Keywurl", "http://purefiction.net/keywurl/") + "."
+        You may have to download and install
+        = nofollow_link_to "SIMBL", "http://www.culater.net/software/SIMBL/SIMBL.php"
+        too.
+      %li
+        Once Keywurl is installed open up Safari's preferences and click Keywurl
+      %li
+        :markdown
+          Delete all of Keywurl's pre-installed keywords, except for `default`. You won't be needing them.
+      %li
+        :markdown
+          Edit the `default` keyword, and paste the following:
+          - if logged_in?
+            %code= user_home_url(current_user) + "/$$$"
+          - else
+            %code= user_home_url('youraccountname') + "/$$$"
+            , using your account name of course.
+            
+      -if logged_in?
+        %li
+          :markdown
+            If you also want to use Queriac's bookmarklet features (which you should), you'll need to 
+            add another keyword to Keywurl. Give it a keyword of `j` and use the following paste the 
+            following in the 'expansion' field:          
+          %code= "javascript:_s=document.createElement('script');_s.type='text/javascript';_s.src='#{user_home_url(current_user)}/@@@';document.getElementsByTagName('head')[0].appendChild(_s);void(0);"
+
+  %div.browser_setup.camino
+  
+    %h2 Camino Option A: Add to Location Bar
+
+    %ol.normal
+      %li
+        :markdown
+          Open Camino and type `about:config` in the address bar. You may get a warning about being 
+          careful. That's fine. Carry on. This will open up a big list of browser preferences.
+      %li
+        :markdown
+          In the filter field, type `keyword` . This should filter the list down to just a couple of items.
+      %li
+        :markdown
+          Make sure `keyword.enabled` is set to `true`.
+      %li
+        :markdown
+          Set `keyword.URL` to
+        - if logged_in?
+          %code= user_home_url(current_user)
+        - else
+          %code= user_home_url('youraccountname')
+          , using your account name of course.
+        %b Don't forget the trailing slash!
+      %li
+        That's it. Visit your account page at
+        - if logged_in?
+          = link_to(user_home_url(current_user), current_user.login)
+        - else
+          %i= user_home_url('youraccountname')
+        to start adding commands.
+        
+    - if logged_in?
+        
+      %h2 Camino Option B: Add to Search Bar
+      
+      %ol.normal
+        %li= link_to_function("Click here to install Queriac in your search bar.", "addp('#{opensearch_user_url(current_user)}')")
+        %li 
+          Note: Camino will revert back to Google when you restart it. To set Camino's search bar to default to Queriac, click the magnifying glass icon on the left of the search bar, then click
+          %i
+            'Manage Search Engines..'
+        %li
+          From here it's easy:
+          = image_tag "screenshots/camino_opensearch_make_default.png"
+
+
+
+
+
+  %div.browser_setup.ie8.inactive
+
+    %h2 Internet Explorer 8
+    %p
+      Coming soon!
+    
+  %div.browser_setup.ie7.inactive
+
+    %h2 Internet Explorer 7
+    %p
+      Microsoft provides a website with a nice little form for adding search providers. 
+      Installing Queriac is just a matter of copy and paste..
+      
+    %ol.normal
+      %li
+        Copy the following text (including the <i>TEST</i> part):
+        - if logged_in?
+          %code= user_home_url(current_user) + "/TEST"
+        - else
+          %code= user_home_url('youraccountname') + "/TEST"
+          , using your account name of course.
+      %li
+        Visit Microsoft's
+        = nofollow_link_to "Add Search Providers to Internet Explorer", "http://www.microsoft.com/windows/ie/searchguide/en-en/default.mspx"
+        page and paste the URL you just copied into the form.
+      %li
+        Note: You may get a warning saying that your default search will be "switched away from Google" 
+        (Side Note: I wonder how much Google paid Microsoft for that alert.. More on that 
+        = nofollow_link_to("here", "http://blogs.zdnet.com/BTL/?p=6715") + ")."
+        Anyway, do this:
+      %li
+        = image_tag "screenshots/ie_opensearch_changed_from_google.png"
+        
+  %div.browser_setup.ie6.inactive
+
+    %h2 Internet Explorer 6
+    %p
+      Coming soon!
+      
+  %div.browser_setup.opera.inactive
+
+    %h2 Opera (All recent versions)
+    %p
+      In the days before Firefox, Opera was the cool kid's browser, with lots of innovative features that were ahead their time.
+      In fact, Opera may have been the first browser to featured the keyworded search concepts that make Queriac possible! Anyhow, the following instructions are for
+      Opera 9, but the process is probably about the same for older versions..
+    %ol.normal
+      %li
+        Open Opera's preferences and click on 'Search'.
+      %li
+        Add a new search and fill it out like the screenshot below (using your username instead of 'zeke').
+      %li
+        Note: You should probably delete the other searches in the list so they don't conflict with the keywords of your Queriac commands.
+        = image_tag "screenshots/opera_opensearch.png"
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+
+
+#secondary
+
+  %h1 Choose your Browser
+  
+  %ul.browser_toc
+    - browsers.each do |browser|
+      %li= link_to_function(browser.first, "showSetupForBrowser('#{browser.last}')", :class => browser.last)

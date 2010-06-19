@@ -1,0 +1,29 @@
+<h1>Log In</h1>
+
+<% form_tag sessions_path, :class => "bordered" do -%>
+
+	<div>
+		<label for="login">Username or Email</label><br />
+		<%= text_field_tag 'login' %>
+	</div>
+
+	<div>
+		<label for="password">Password</label><br />
+		<%= password_field_tag 'password' %>
+	</div>
+
+	<div class="floater tighter">
+		<%= submit_tag 'Log in' %>
+	</div>
+
+	<div class="floater tighter checkbox">
+		<%= check_box_tag 'remember_me', '1', true %>
+		<label for="remember_me">Keep me logged in</label>
+	</div>
+
+	<p class="floatkiller">
+		No account? <%= link_to "Sign up.", new_user_path %>
+	</p>
+	
+<% end -%>
+

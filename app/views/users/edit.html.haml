@@ -1,0 +1,75 @@
+#primary
+  #edit_account
+    %h1 Edit Your Account
+    
+    - form_for(:user, @user, :url => user_path(@user), :html => { :method => :put }) do |f|
+      = error_messages_for :user
+
+      %div
+        = f.label :first_name
+        = f.text_field :first_name 
+      %div
+        = f.label :last_name
+        = f.text_field :last_name 
+      %div
+        = f.label :email
+        = f.text_field :email 
+
+
+      %div.tip
+
+        %div.radio
+          = radio_button_tag 'use_default_command', 'no', !current_user.default_command?
+          %label{ :for => "use_default_command_no" }
+            Tell me when I try to use a command that doesn't exist.
+
+        %div.radio
+          = radio_button_tag 'use_default_command', 'yes', current_user.default_command?
+          %label{ :for => "use_default_command_yes" }
+            Run orphan queries with this command:
+          = f.select :default_command_id, current_user.user_commands.quicksearches.find(:all, :order => "user_commands.keyword ASC").collect {|c| [ "#{c.keyword} - #{c.name.ellipsize(:max => 30)}", c.id ] }, {}, :onfocus => "$('use_default_command_yes').checked = true"
+
+      %div
+        = submit_tag "Save Settings", :class => "submit"
+
+  #change_password{ :style => "display:none" }
+    %h1
+      Change Your Password
+    - form_for(:user, @user, :url => user_path(@user), :html => { :method => :put }) do |f|    
+      = error_messages_for :user
+      %div
+        = f.label :password
+        = f.password_field :password
+      %div
+        = f.label :password_confirmation
+        = f.password_field :password_confirmation
+      %div
+        = submit_tag "Change Password", :class => "submit"
+
+  #delete_account.admin{ :style => "display:none" }
+    %h1
+      Delete Your Account
+    %p
+      This will delete everything from your account, including your user commands and queries.
+      Proceed with caution.
+    - form_for(:user, @user, :url => user_path(current_user), :html => { :method => :delete, :onsubmit=>"return confirm('This truly deletes you from our website. Do you want to proceed?');" }) do |f|
+      = error_messages_for :user
+      %div
+        = f.label :password
+        %br
+        = f.password_field :password
+      %div
+        = f.label :password_confirmation
+        %br
+        = f.password_field :password_confirmation
+      %p
+        = submit_tag "Delete!", :class => "submit"
+
+#secondary
+
+  %h1 Options
+  
+  %ul.toc
+    %li= link_to_function("Edit Account", "$('#edit_account').show();$('#change_password').hide();$('#delete_account').hide();")
+    %li= link_to_function("Change Password", "$('#edit_account').hide();$('#change_password').show();$('#delete_account').hide();")
+    %li.last= link_to_function("Delete Account", "$('#edit_account').hide();$('#change_password').hide();$('#delete_account').show();")
