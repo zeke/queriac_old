@@ -47,11 +47,11 @@ class UserCommand < ActiveRecord::Base
   named_scope :used, :conditions => ["user_commands.queries_count > 0"]
   named_scope :unused, :conditions => ["user_commands.queries_count = 0"]
   named_scope :popular, :conditions => ["user_commands.queries_count > 50"]
-  named_scope :public, :conditions=>'commands.public = 1', :include=>:command
+  named_scope :public, :conditions => ['commands.public = ?', true], :include=>:command
   named_scope :publicly_queriable, :conditions => {:public_queries => true}
-  named_scope :quicksearches, :conditions => ["commands.kind ='parametric' AND commands.bookmarklet=0"], :include=>:command
-  named_scope :bookmarklets, :conditions => ["commands.bookmarklet=1"], :include=>:command
-  named_scope :shortcuts, :conditions => ["commands.kind ='shortcut' AND commands.bookmarklet=0"], :include=>:command
+  named_scope :quicksearches, :conditions => ["commands.kind ='parametric' AND commands.bookmarklet = ?", false], :include=>:command
+  named_scope :bookmarklets, :conditions => ["commands.bookmarklet = ?", true], :include=>:command
+  named_scope :shortcuts, :conditions => ["commands.kind ='shortcut' AND commands.bookmarklet = ?", false], :include=>:command
   named_scope :non_bootstrap, :conditions=>["commands.id NOT IN (1,2,3,4,5,6,7,8,645)"], :include=>:command
   named_scope :search, lambda {|v| {:conditions=>["user_commands.keyword REGEXP ? OR user_commands.url REGEXP ?", v, v]} }
   named_scope :out_of_date, :conditions=>["commands.url != user_commands.url"], :include=>:command

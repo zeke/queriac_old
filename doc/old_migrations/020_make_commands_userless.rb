@@ -43,7 +43,7 @@ class MakeCommandsUserless < ActiveRecord::Migration
   end
    
   def self.make_private_commands
-    private_commands = Command.find(:all, :conditions=>'public=0', :order=>'created_at ASC')
+    private_commands = Command.find(:all, :conditions => ["public = ?", false], :order => 'created_at ASC')
     private_commands = private_commands.select {|e| ! excluded_urls.include?(e.url) }
     logger "private size: #{private_commands.size}"
     private_commands.each do |c|
