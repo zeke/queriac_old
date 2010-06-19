@@ -36,10 +36,10 @@ class Command < ActiveRecord::Base
   named_scope :search, lambda {|v| {:conditions=>["commands.keyword REGEXP ? OR commands.url REGEXP ?", v, v]} }
   named_scope :advanced_search, lambda {|v| parse_advanced_search(v) }
   named_scope :options, :conditions=>"commands.url_options IS NOT NULL"
-  named_scope :bookmarklets, :conditions => ["commands.bookmarklet=1"]
-  named_scope :nonshortcuts, :conditions=>["NOT(commands.kind ='shortcut' AND commands.bookmarklet=0)"]
-  named_scope :shortcuts, :conditions => ["commands.kind ='shortcut' AND commands.bookmarklet=0"]
-  named_scope :quicksearches, :conditions => ["commands.kind ='parametric' AND commands.bookmarklet=0"]
+  named_scope :bookmarklets, :conditions => ["commands.bookmarklet = ?", true]
+  named_scope :nonshortcuts, :conditions=>["NOT(commands.kind ='shortcut' AND commands.bookmarklet = ?)", false]
+  named_scope :shortcuts, :conditions => ["commands.kind ='shortcut' AND commands.bookmarklet = ?", false]
+  named_scope :quicksearches, :conditions => ["commands.kind ='parametric' AND commands.bookmarklet = ?", false]
   
   after_update :expire_cache
   before_update :update_revised_at, :destroy_public_user_command_if_privatized
