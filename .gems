@@ -1,3 +1,4 @@
+rails --version 2.3.5
 hpricot
 hobofields
 zeke-monkey_patches --source gems.github.com
