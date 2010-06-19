@@ -10,7 +10,7 @@
 	<% for user in @users %>
 		<tr <%= cycle('class="offset"', '') -%>>	
 			<td><b><%= user_link(user) %></b></td>
-			<td class="centered weak"><%= link_to(user.user_commands_count, specific_user_commands_path(user)) %> </td>
+			<td class="centered weak"><%= link_to("5", specific_user_commands_path(user)) %> </td>
 			<td class="centered weak"><%= user[:queries_count].zero? ? "<span class=\"faded\">0</span>" : link_to(user[:queries_count], user_queries_path(user)) %> </td>
 		</tr>
 	<% end %>

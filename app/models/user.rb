@@ -65,11 +65,8 @@ class User < ActiveRecord::Base
   #takes ownership of deleted commands
   def self.public_user; get_cache(:public_user) { find_by_login(PUBLIC_USER); } end
   
-  def self.find_top_users(options={})
-    #includes user_commands count
-    users = find(:all, {:conditions=>VIEWABLE_SQL, :joins => "INNER JOIN user_commands ON user_commands.user_id = users.id", 
-      :select => "users.*, count(users.id) as user_commands_count",:group => "user_commands.user_id HAVING user_commands_count >= 15",
-      :order=>'login'}.merge(options))
+  def self.find_top_users()
+    users = find(:all)
     set_queries_count_for_users(users)
     users
   end
