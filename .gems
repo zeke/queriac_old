@@ -1,4 +1,5 @@
 rails --version 2.3.5
+rack --version 1.0.1
 hpricot
 hobofields
 zeke-monkey_patches --source gems.github.com
