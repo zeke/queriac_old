@@ -14,7 +14,7 @@ class Query < ActiveRecord::Base
   belongs_to :user
   has_many :tags, :through => :user_command
 
-  named_scope :public, :conditions => ["user_commands.public_queries = 1"]
+  named_scope :public, :conditions => ["user_commands.public_queries = ?", true]
   named_scope :non_empty, :conditions => ["LENGTH(query_string) > 0"]
   named_scope :three_months_or_older, :conditions => ['queries.created_at < ?', 3.months.ago]
   named_scope :any
