@@ -1,4 +1,6 @@
-rails --version 2.3.8
+rails --version 2.3.5
+rack --version 1.0.1
 hpricot
-hobofields
+hobosupport
+hobofields --ignore-depedencies
 zeke-monkey_patches --source gems.github.com
