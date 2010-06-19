@@ -82,18 +82,9 @@ class User < ActiveRecord::Base
   end
   
   def self.set_queries_count_for_users(users)
-    user_queries = query_count_by_user_id
     users.each do |u|
-      u[:queries_count] = user_queries[u.id] || 0
+      u[:queries_count] = 0
     end
-  end
-  
-  def self.query_count_by_user_id
-    hash = {}
-    Query.find(:all, :group=>'user_id', :select=>'user_id, count(*) as count').each do |q|
-      hash[q.user_id] = q.count.to_i
-    end
-    hash
   end
   
   def subscribe_to(command)
