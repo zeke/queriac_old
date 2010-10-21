@@ -58,8 +58,11 @@ class UserCommandsController < ApplicationController
   end
   
   def show
-    @related_user_commands, @queries = user_command_owner? ? @user_command.show_page(can_view_queries?) : 
-      @user_command.cached(:show_page, :with=>can_view_queries?, :ttl=>15.minutes)
+    # if user_command_owner?
+      @related_user_commands, @queries = @user_command.show_page(can_view_queries?)
+    # else 
+      # @related_user_commands, @queries = @user_command.cached(:show_page, :with=>can_view_queries?, :ttl=>15.minutes)
+    # end
   end
   
   def help

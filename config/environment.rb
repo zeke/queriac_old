@@ -9,8 +9,9 @@ Rails::Initializer.run do |config|
   config.gem "hobofields"
   config.gem "haml"
   config.gem "zeke-monkey_patches", :lib => "monkey_patches", :source => "http://gems.github.com"
-  # config.gem "will_paginate"
+  config.gem "will_paginate"
   config.time_zone = 'UTC'
+  config.gem 'memcached-northscale', :lib => 'memcached'
 end
 
 Time::DATE_FORMATS[:short] = "%B %d, %l:%M%p"
@@ -31,6 +32,7 @@ ExceptionNotifier.email_prefix = "[queriac] "
 # Include your application configuration below
 require 'open-uri'
 require 'hpricot'
+require 'memcached'
 
 common_stopwords = %w(user_commands commands tags queries users opensearch)
 COMMAND_STOPWORDS = %w(default_to delete search_form search_all execute update tag_set tag_add_remove find_by_ids) + common_stopwords + Command::TYPES.map {|e| e.to_s}
