@@ -44,7 +44,16 @@ p {
     color: #427f0b; }
   p.tag_list {
     padding: 3px 0;
-    color: #999999; }
+    color: #999999;
+    font-weight: normal;
+    font-size: 0.9em; }
+    p.tag_list a {
+      font-weight: normal;
+      color: #666666 !important; }
+      p.tag_list a:hover {
+        text-decoration: underline;
+        background: none;
+        color: #333333 !important; }
   p.small-url {
     padding: 0;
     margin: 0;
@@ -59,6 +68,9 @@ p {
     padding: 0; }
     p.command_title a {
       text-decoration: none; }
+      p.command_title a:hover {
+        background: none;
+        text-decoration: underline; }
   p a {
     text-decoration: underline;
     color: #427f0b;
