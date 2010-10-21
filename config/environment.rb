@@ -9,7 +9,7 @@ Rails::Initializer.run do |config|
   config.gem "hobofields"
   config.gem "haml"
   config.gem "zeke-monkey_patches", :lib => "monkey_patches", :source => "http://gems.github.com"
-  config.gem "will_paginate"
+  config.gem "will_paginate", :version => "2.3.14"
   config.time_zone = 'UTC'
   config.gem 'memcached-northscale', :lib => 'memcached'
 end
