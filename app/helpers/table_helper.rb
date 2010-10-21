@@ -21,7 +21,7 @@ module TableHelper
     when :keyword
       [user_command.keyword, {:class => "weak"}]
     when :created_at
-      time_ago_in_words_or_date(user_command.created_at, :short=>true)
+      time_ago_in_words_or_date(user_command.created_at)
     when :command_actions
       user_command_actions(user_command)
     else
@@ -52,9 +52,9 @@ module TableHelper
     when :keyword
       [command.keyword, {:class=>'centered'}]
     when :created_at
-      time_ago_in_words_or_date(command.created_at, :short=>true)
+      time_ago_in_words_or_date(command.created_at)
     when :revised_at
-      time_ago_in_words_or_date(command.revised_at, :short=>true) || '--'
+      time_ago_in_words_or_date(command.revised_at) || '--'
     when :command_actions
       command_actions(command)
     end

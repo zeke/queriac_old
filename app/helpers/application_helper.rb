@@ -44,9 +44,9 @@ module ApplicationHelper
     if (Time.now-date)/60/60/24 < 7
       time_ago_in_words(date) + " ago"
     elsif date.year == Time.now.year
-      options[:short] ? date.strftime("%m/%d %I:%M%p") : date.to_s(:short)
+      date.to_s(:short)
     else
-      options[:short] ? date.strftime("%m/%d/%y") : date.to_s(:medium)
+      date.to_s(:medium)
     end
   end
     

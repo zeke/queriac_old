@@ -18,6 +18,6 @@
 
 <hr />
 
-<%= query_table @queries, :table=>{:class=>'top_spaced'}, :columns=>[:user, :query_string, :user_command, :created_at]%>
+<%= query_table @queries, :table=>{:class=>'top_spaced'}, :columns=>[:query_string, :user_command, :created_at]%>
 
 <%= will_paginate @queries %>

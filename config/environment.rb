@@ -14,7 +14,7 @@ Rails::Initializer.run do |config|
   config.gem 'memcached-northscale', :lib => 'memcached'
 end
 
-Time::DATE_FORMATS[:short] = "%B %d, %l:%M%p"
+Time::DATE_FORMATS[:short] = "%B %d"
 Time::DATE_FORMATS[:medium] = "%B %d, %Y"
 Time::DATE_FORMATS[:blog] = "%A, %B %d at %l:%M%p"
 Time::DATE_FORMATS[:long] = "%A, %B %d at %l:%M%p"

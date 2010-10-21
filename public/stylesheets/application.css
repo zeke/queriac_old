@@ -1,10 +1,10 @@
 @font-face {
   font-family: "museo_sans_500";
-  src: url('../fonts/museo_sans_500.otf') format('opentype'); }
+  src: url("../fonts/museo_sans_500.otf") format("opentype"); }
 
 @font-face {
   font-family: "museo_sans_500_italic";
-  src: url('../fonts/museo_sans_500_italic.otf') format('opentype'); }
+  src: url("../fonts/museo_sans_500_italic.otf") format("opentype"); }
 
 body {
   font-family: "Lucida Grande", Lucida, Verdana, sans-serif;
@@ -24,7 +24,7 @@ a {
 
 p {
   font-family: "Lucida Grande", Lucida, Verdana, sans-serif;
-  color: #444;
+  color: #444444;
   text-decoration: none;
   word-spacing: normal;
   text-align: left;
@@ -34,8 +34,8 @@ p {
   p.tags {
     text-align: justify; }
   p.bordered {
-    background-color: #F3F3F3;
-    border: 1px solid #DDD;
+    background-color: #f3f3f3;
+    border: 1px solid #dddddd;
     padding: 10px; }
   p.caption {
     padding-left: 10px;
@@ -44,16 +44,16 @@ p {
     color: #427f0b; }
   p.tag_list {
     padding: 3px 0;
-    color: #999; }
+    color: #999999; }
   p.small-url {
     padding: 0;
     margin: 0;
-    color: #999; }
+    color: #999999; }
   p.tag_list a {
-    color: #666;
+    color: #666666;
     text-decoration: none; }
     p.tag_list a:hover {
-      color: #FFF; }
+      color: white; }
   p.command_title {
     font-weight: bold;
     padding: 0; }
@@ -70,14 +70,14 @@ p {
       color: white; }
 
 code {
-  color: #000;
+  color: black;
   background-color: #f1f1f1;
   padding: 2px;
   border: 1px solid #cccccc; }
 
 h1, h2, h3, h4 {
   font-family: "museo_sans_500", "Trebuchet MS", "Trebuchet-MS", "Lucida Grande", Lucida, Verdana;
-  color: #333;
+  color: #333333;
   text-align: left;
   clear: both; }
 
@@ -96,20 +96,20 @@ h2 {
   line-height: 1.2em;
   font-size: 1.5em;
   margin: 10px 0 3px 0;
-  color: #333; }
+  color: #333333; }
   h2 a {
-    color: #666; }
+    color: #666666; }
 
 h3 {
   line-height: 1em;
   font-size: 1.3em;
   margin: 15px 0 0px 0;
-  color: #444; }
+  color: #444444; }
 
 .flash-msg {
   border: 1px solid #76191a;
   padding: 8px;
-  color: #000; }
+  color: black; }
   .flash-msg a {
     color: white;
     font-weight: bold;
@@ -123,14 +123,14 @@ h3 {
 .warning {
   background-color: #ed2700;
   color: white;
-  border-color: #700; }
+  border-color: #770000; }
 
 #errors {
   width: 500px;
-  background: #FCFAE1 url(../images/icons/error.png) no-repeat 5px 12px;
+  background: #fcfae1 url(../images/icons/error.png) no-repeat 5px 12px;
   border: 1px solid red;
   padding: 10px 10px 10px 35px;
-  color: #000;
+  color: black;
   color: red; }
   #errors p {
     margin: 0;
@@ -147,7 +147,7 @@ h3 {
 ul.normal {
   list-style-type: disc;
   padding-left: 15px;
-  color: #444; }
+  color: #444444; }
   ul.normal li {
     padding-bottom: 10px;
     list-style-position: outside;
@@ -155,23 +155,23 @@ ul.normal {
 ul.users {
   list-style-type: none;
   padding-left: 0px;
-  color: #444; }
+  color: #444444; }
   ul.users li {
     padding-bottom: 10px;
     list-style-position: outside;
-    line-height: .9em; }
+    line-height: 0.9em; }
 
 ol.normal {
   margin-left: 5px;
   list-style-type: decimal;
   padding-left: 15px;
-  color: #444;
+  color: #444444;
   list-style-position: inside; }
   ol.normal li {
     padding: 10px 0 10px 0;
     list-style-position: outside;
     line-height: 1.7em;
-    border-bottom: thin solid #CCC; }
+    border-bottom: thin solid #cccccc; }
     ol.normal li p {
       margin: 0;
       padding: 0;
@@ -184,6 +184,28 @@ ol.normal {
 
 #option_types ul.normal li, #option_basics ul.normal li, #tweaking_options ul.normal li {
   line-height: 170%; }
+
+ul.command_info {
+  margin: 0;
+  padding: 0;
+  display: block;
+  float: none;
+  clear: both;
+  overflow: none; }
+  ul.command_info li {
+    display: block;
+    float: none;
+    clear: both;
+    overflow: none;
+    border-top: 1px solid #f0f0f0; }
+    ul.command_info li div {
+      padding: 6px 3px; }
+      ul.command_info li div.key {
+        float: left;
+        color: #888888; }
+      ul.command_info li div.value {
+        float: right;
+        color: #555555; }
 
 ul.options li {
   display: inline;
@@ -243,7 +265,7 @@ ul.options.toolbar {
     padding-bottom: 8px; }
 
 hr {
-  opacity: .30;
+  opacity: 0.3;
   clear: both;
   margin: 0;
   padding: 0; }
@@ -255,7 +277,7 @@ hr {
   font-size: 90%; }
 
 .faded {
-  color: #999; }
+  color: #999999; }
 
 .option_box {
   border: 1px dotted #427f0b;
@@ -313,16 +335,16 @@ hr {
     float: right; }
     #mininav ul li {
       float: left;
-      color: #666;
-      font-size: .9em;
+      color: #666666;
+      font-size: 0.9em;
       padding: 1px 10px 3px 10px;
-      border-right: 1px solid #555; }
+      border-right: 1px solid #555555; }
       #mininav ul li.last {
         padding-right: 0;
         border-right: 0; }
       #mininav ul li a {
         font-weight: normal;
-        color: #999;
+        color: #999999;
         text-decoration: none; }
         #mininav ul li a.bold {
           font-weight: bold; }
@@ -347,12 +369,12 @@ hr {
   #secondary.boxed {
     width: 320px;
     padding: 0 10px 0 10px;
-    border: 1px solid #DDDDCC;
-    background-color: #FFFFEE; }
+    border: 1px solid #ddddcc;
+    background-color: #ffffee; }
   #secondary ul.toc {
     margin: 0; }
     #secondary ul.toc li {
-      border-bottom: 1px solid #DDD;
+      border-bottom: 1px solid #dddddd;
       padding: 4px 4px; }
       #secondary ul.toc li.last {
         border: none; }
@@ -396,13 +418,13 @@ table {
   table.top_spaced {
     margin-top: 25px; }
   table tr th, table tr td {
-    border-bottom: 1px solid #CCC;
+    border-bottom: 1px solid #cccccc;
     padding: 6px; }
   table tr th {
-    color: #999;
-    color: #999; }
+    color: #999999;
+    color: #999999; }
     table tr th b {
-      color: #333; }
+      color: #333333; }
   table tr td {
     vertical-align: middle; }
     table tr td.parametric {
@@ -415,14 +437,14 @@ table {
       background: url(../images/icons/bookmarklet.png) no-repeat 7px center;
       padding-left: 30px; }
     table tr td a {
-      color: #444;
+      color: #444444;
       font-weight: bold; }
     table tr td.weak a {
       font-weight: normal; }
     table tr td ul.options {
       visibility: hidden; }
   table tr:hover td {
-    background-color: #F0F0F0; }
+    background-color: #f0f0f0; }
     table tr:hover td ul.options {
       visibility: visible; }
     table tr:hover td.weak {
@@ -477,8 +499,8 @@ ul.browser_toc li {
     ul.browser_toc li a.opera {
       background-image: url(../images/icons/browser/opera.png); }
   ul.browser_toc li:hover {
-    background-color: #F0F0F0;
-    border: 1px solid #DDD; }
+    background-color: #f0f0f0;
+    border: 1px solid #dddddd; }
 
 #footer {
   float: none;
@@ -494,16 +516,16 @@ ul.browser_toc li {
     padding: 0; }
     #footer ul#footer_nav li {
       float: left;
-      color: #777;
+      color: #777777;
       padding: 2px 8px;
-      border-right: 1px solid #CCC; }
+      border-right: 1px solid #cccccc; }
       #footer ul#footer_nav li.first {
         padding-left: 0; }
       #footer ul#footer_nav li.last {
         padding-right: 0;
         border-right: 0; }
       #footer ul#footer_nav li a {
-        color: #777;
+        color: #777777;
         text-decoration: none; }
         #footer ul#footer_nav li a:hover, #footer ul#footer_nav li a.active {
           text-decoration: underline; }
@@ -516,13 +538,13 @@ ul.browser_toc li {
   .pagination a {
     padding: 2px 5px 2px 5px;
     margin: 2px;
-    border: 1px solid #DDDDDD;
+    border: 1px solid #dddddd;
     text-decoration: none;
     color: #427f0b;
     background: none; }
     .pagination a:hover, .pagination a:active {
       border: 1px solid #427f0b;
-      color: #FFF;
+      color: white;
       text-decoration: none;
       background-color: #427f0b; }
   .pagination span.current {
@@ -531,17 +553,17 @@ ul.browser_toc li {
     border: 1px solid #427f0b;
     font-weight: bold;
     background-color: #427f0b;
-    color: #FFF; }
+    color: white; }
   .pagination span.disabled {
     padding: 2px 5px 2px 5px;
     margin: 2px;
-    border: 1px solid #eee;
-    color: #ddd; }
+    border: 1px solid #eeeeee;
+    color: #dddddd; }
 
 div.msg {
   padding: 10px;
   border: 1px solid saddlebrown;
-  background-color: #FFFFEE;
+  background-color: #ffffee;
   overflow: hidden; }
   div.msg ul li {
     padding-left: 22px; }
@@ -552,7 +574,7 @@ div.msg {
     padding-bottom: 10px; }
 
 .weak {
-  color: #888; }
+  color: #888888; }
 
 .centered {
   text-align: center; }
@@ -564,39 +586,38 @@ div.msg {
   display: none; }
 
 #command_description_box, #user_command_description_box, .description_box {
-  background-color: #F5F5F5;
-  border: 1px solid #DDD;
+  background-color: #f5f5f5;
+  border: 1px solid #dddddd;
   padding: 5px 10px; }
-
 
 #primary .indent {
   margin-left: 20px; }
 
 form.bordered {
-  background-color: #F3F3F3;
-  border: 1px solid #DDD;
+  background-color: #f3f3f3;
+  border: 1px solid #dddddd;
   padding: 10px 20px 10px 20px; }
 
 kbd {
   font-family: "Lucida Grande", Lucida, Verdana, sans-serif;
-  color: #666;
+  color: #666666;
   font-weight: bold;
-  border-bottom: 1px solid #666; }
+  border-bottom: 1px solid #666666; }
 
 label {
   display: block;
   font-family: "Lucida Grande", Lucida, Verdana, sans-serif;
   font-size: 1.1em;
   padding: 2px 2px 0px 0;
-  color: #666; }
+  color: #666666; }
   label.enabled {
     font-size: 1.1em;
     padding: 2px 2px 0px 0;
-    color: #666; }
+    color: #666666; }
   label.disabled {
-    color: #AAA; }
+    color: #aaaaaa; }
     label.disabled kbd {
-      color: #AAA;
+      color: #aaaaaa;
       font-weight: normal;
       border-bottom: none; }
   label.required kbd {
