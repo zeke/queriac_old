@@ -52,8 +52,22 @@
   %div.browser_setup.chrome.inactive
 
     %h2 Chrome
-    %p
-      Coming soon!
+    
+    %ol.normal
+      %li
+        :markdown
+          Open Chrome preferences
+      %li
+        :markdown
+          Click 'Manage Search Engines'
+      %li
+        :markdown
+          Add a new search engine and set the URL to 
+        - if logged_in?
+          %code= user_home_url(current_user) + "/%s"
+        - else
+          %code= user_home_url('youraccountname') + "/%s"
+          , using your account name of course.
 
   %div.browser_setup.safari.inactive
     %h2 Safari 3+ on Mac OS X

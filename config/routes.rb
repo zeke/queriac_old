@@ -6,13 +6,13 @@ ActionController::Routing::Routes.draw do |map|
   #tagged_commands needs to be after map.resources :commands to allow for commands/tag
   map.tagged_commands 'commands/tag/*tag', :controller=>'commands', :action=>'tagged_commands'
   map.resources :sessions
-  map.resources :user_commands, :member=>{:subscribe=>:get, :copy=>:get, :update_url=>:post, :destroy=>:get}, 
+  map.resources :user_commands, :member=>{:subscribe=>:get, :copy=>:get, :update_url=>:post, :destroy=>:get},
     :collection=>{:import=>:any, :tag_set=>:get, :tag_add_remove=>:get, :search=>:get, :copy_yubnub_command=>:get,
       :change_option_type_fields=>:post, :update_default_picker=>:post, :sync_url_options=>:post, :fetch_form=>:any,
       :fetch_and_sync_url_options=>:post
   }
   map.resources :tags
-  
+
   map.with_options(:controller=>'user_commands') do |c|
     c.command_user_commands  'commands/:id/user_commands', :action=>'command_user_commands'
     c.formatted_command_user_commands  'commands/:id/user_commands.:format', :action=>'command_user_commands', :format=>'rss'
@@ -28,34 +28,34 @@ ActionController::Routing::Routes.draw do |map|
     c.help_public_user_command     ':login/:id/help', :action=>'help'
   end
   map.resources :users, :member => { :opensearch => :get }
-    
+
   map.activate_user  '/activate/:activation_code',     :controller => 'users', :action => 'activate'
   map.settings    'settings',                     :controller => 'users', :action => 'edit'
   map.static_page    ':static_page',              :controller=>'static', :action=>'render_page', :static_page=>/#{STATIC_PAGES.join("|")}/
   map.home        '',                             :controller => "static", :action => "home"
   map.queries     'queries',                      :controller => 'queries', :action => 'index'
- 
+
   map.with_options(:controller=>'users') do |c|
     c.current_user_home   'home',   :action=>'home'
     c.user_home           ':login',                         :action => 'show'
     c.opensearch_user     ':login/opensearch',              :action => 'opensearch'
   end
-  
+
   map.with_options(:controller=>'queries') do |c|
     c.command_queries 'commands/:id/queries', :action=>'command_queries'
   end
-  
+
   map.with_options(:controller=>'queries', :action=>'index') do |c|
     c.tagged_queries        'queries/tag/*tag'
     c.user_command_queries  ':login/:command/queries'
     c.user_queries          ':login/queries'
     c.user_tagged_queries   ':login/queries/tag/*tag'
   end
-  
+
   map.with_options(:controller=>'commands') do |c|
-    c.user_command_execute      ':login/*command',                :action => 'execute'  
+    c.user_command_execute      ':login/*command',                :action => 'execute'
   end
-  
+
   # Allow downloading Web Service WSDL as a file with an extension
   # instead of a file named 'wsdl'
   map.connect ':controller/service.wsdl', :action => 'wsdl'
@@ -63,6 +63,6 @@ ActionController::Routing::Routes.draw do |map|
   # Install the default route as the lowest priority.
   map.connect ':controller/:action/:id.:format'
   map.connect ':controller/:action/:id'
-  # map.connect ':controller/:action/:id', :uri => /.+,/  
-  
+  # map.connect ':controller/:action/:id', :uri => /.+,/
+
 end
