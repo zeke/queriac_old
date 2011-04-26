@@ -13,7 +13,6 @@ class StaticController < ApplicationController
     @latest_revised_commands = Command.public.find(:all, :limit=>4, :order=>'commands.revised_at DESC')
     #faster without including :user
     @latest_user_commands = UserCommand.public.non_bootstrap.find(:all, :limit=>4, :order=>'user_commands.created_at DESC')
-    raise "this far"
   end
 
   def render_page
