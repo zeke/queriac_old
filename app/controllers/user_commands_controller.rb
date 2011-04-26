@@ -10,7 +10,7 @@ class UserCommandsController < ApplicationController
   before_filter :allow_breadcrumbs, :only=>[:search, :index, :command_user_commands, :show, :edit, :help]
   before_filter :set_disabled_fields, :only=>[:subscribe, :edit]
   before_filter :load_tags_if_specified, :only=>:index
-  before_filter :add_rss_feed, :only=>[:index, :command_user_commands]  
+  before_filter :add_rss_feed, :only=>[:index, :command_user_commands]
   # Possiblities..
   # /user_commands                   => public commands
   # /user_commands/tag/google        => public commands for a tag or tags
@@ -47,40 +47,36 @@ class UserCommandsController < ApplicationController
       format.xml
     end
   end
-  
+
   def old_index
     redirect_to tagged_user_commands_path(params[:login], *params[:tag]), :status=>301
   end
-  
+
   def command_user_commands
     @user_commands = @command.user_commands.paginate(index_pagination_params.merge(:order=>sort_param_value))
     render :action=>'index'
   end
-  
+
   def show
-    # if user_command_owner?
-      @related_user_commands, @queries = @user_command.show_page(can_view_queries?)
-    # else 
-      # @related_user_commands, @queries = @user_command.cached(:show_page, :with=>can_view_queries?, :ttl=>15.minutes)
-    # end
+    @related_user_commands, @queries = @user_command.show_page(can_view_queries?)
   end
-  
+
   def help
   end
-  
-  def new  
+
+  def new
     @user_command = UserCommand.new
     # Allow user to pre-populate form
     @user_command.attributes = params.slice(:name, :keyword, :url, :description)
   end
-  
+
   def copy
     if (@source_object = setup_source_object)
       setup_new_from_source(@source_object)
       flash.now[:notice] = "If you don't intend to change the url, options or public state of this command, you should use subscribe instead."
     end
   end
-  
+
   def subscribe
     if (@source_object = setup_source_object)
       source_command = @source_object.is_a?(UserCommand) ? @source_object.command : @source_object
@@ -94,34 +90,33 @@ class UserCommandsController < ApplicationController
       setup_new_from_source(@source_object)
     end
   end
-  
+
   def edit
   end
-  
+
   def import
     if request.post?
       if params['bookmarks_file'].blank?
         flash[:warning] = 'Not a valid bookmark file, try again.'
-      else        
+      else
         new_file = "#{RAILS_ROOT}/public/bookmark_files/#{Time.now.to_s(:ymdhms)}.html"
         File.open(new_file, "wb") { |f| f.write(params['bookmarks_file'].read) }
         valid_commands, invalid_commands = Command.create_commands_for_user_from_bookmark_file(current_user, new_file)
         @user_commands = valid_commands
         flash[:notice] = "Imported #{valid_commands.size} of #{(valid_commands + invalid_commands).size} commands from your uploaded bookmarks file."
-        
       end
-    end     
+    end
   end
-  
+
   def create
       if params[:commit] && params[:commit].include?('Cancel')
         redirect_back_or_default home_path
         return
       end
-      
+
       @user_command = current_user.user_commands.new(params[:user_command].merge(:url_options=>get_url_options))
-      
-      respond_to do |format|      
+
+      respond_to do |format|
         if @user_command.save
           @user_command.update_tags(params[:tags])
           flash[:notice] = "New command created: <b><a href='#{public_user_command_path(@user_command)}'>#{@user_command.name}</a></b>"
@@ -138,7 +133,7 @@ class UserCommandsController < ApplicationController
           #format.xml  { render :xml => @command.errors.to_xml }
         end
       end
-      
+
   end
 
   def update
@@ -155,7 +150,7 @@ class UserCommandsController < ApplicationController
       end
     end
   end
-  
+
   def update_url
     @user_command.update_url_and_options
     render :update do |page|
@@ -167,18 +162,18 @@ class UserCommandsController < ApplicationController
 
   def destroy
     @user_command.destroy
-    flash[:notice] = "User command deleted: <b>#{@user_command.name}</b>"      
+    flash[:notice] = "User command deleted: <b>#{@user_command.name}</b>"
     redirect_back_or_default user_home_path(current_user)
   end
-  
+
   def tag_add_remove
     tag_add_remover {|e| current_user.user_commands.find_by_keyword(e)}
   end
-  
+
   def tag_set
     tag_setter {|e| current_user.user_commands.find_by_keyword(e)}
   end
-  
+
   def search
     if params[:q].blank?
       flash[:warning] = "Your search is empty. Try again."
@@ -214,7 +209,7 @@ class UserCommandsController < ApplicationController
       end
       flash[:warning] = "Failed to parse yubnub keyword '#{params[:keyword]}'"
     else
-      flash[:warning] = "The keyword '#{params[:keyword]}' is not a valid keyword. Please try again."      
+      flash[:warning] = "The keyword '#{params[:keyword]}' is not a valid keyword. Please try again."
     end
     redirect_back_or_default user_home_path(current_user)
   end
@@ -230,7 +225,7 @@ class UserCommandsController < ApplicationController
       options = UserCommand.new.options_from_url(params[:user_command_url]).map {|e| Option.new(:name=>e)}
     end
     Option.detect_and_add_params_to_options(options, params[:user_command_url])
-    
+
     render :update do |page|
       page.replace_html :user_command_options, :partial=>'options', :locals=>{:options=>options}
   	end
@@ -241,7 +236,7 @@ class UserCommandsController < ApplicationController
       page.replace_html "option_type_specific_fields_#{params[:index]}", :partial=>'option_type_specific_fields'
   	end
 	end
-  
+
   def update_default_picker
     @values = Option.new.values_list(params[:values]) + [nil]
     render :update do |page|
@@ -250,7 +245,7 @@ class UserCommandsController < ApplicationController
       ]
   	end
   end
-  
+
   def fetch_and_sync_url_options
     @user_command = UserCommand.new
     scrape_options = {:text=>params[:text], :form_number=>params[:form_number], :is_admin=>admin?}
@@ -272,7 +267,7 @@ class UserCommandsController < ApplicationController
       end
     end
   end
-  
+
   def fetch_form
     if request.post?
       scrape_options = {:text=>params[:text], :form_number=>params[:form_number], :is_admin=>admin?}
@@ -287,9 +282,9 @@ class UserCommandsController < ApplicationController
       end
     end
   end
-  
+
   def valid_sort_columns; %w{name queries_count created_at keyword}; end
-  
+
   protected
   def get_url_options
     if (url_options = params[:user_command].delete(:url_options))
@@ -306,11 +301,11 @@ class UserCommandsController < ApplicationController
       (@user_command || UserCommand.new).merge_url_options_with_options_in_url(params[:user_command][:url])
     end
   end
-  
+
   def sort_param_value(default_sort = 'user_commands.queries_count DESC')
     general_sort_param_value('user_commands', valid_sort_columns, default_sort)
   end
-  
+
   #PERF: pagination at 15 for performance
   def index_pagination_params
     #PERF: avoiding :include=>:tags b/c it's slower
@@ -329,7 +324,7 @@ class UserCommandsController < ApplicationController
       return false
     end
   end
-  
+
   def set_user_command
     #for public_user_command_path
     if @user
@@ -341,7 +336,7 @@ class UserCommandsController < ApplicationController
     return false if user_command_is_nil?(params[:id])
     true
   end
-  
+
   def permission_required_if_private
     if @user_command.private? && ! user_command_owner_or_admin?
       flash[:warning] = "Sorry, the command '#{@user_command.name}' is private."
@@ -350,13 +345,13 @@ class UserCommandsController < ApplicationController
     end
     true
   end
-  
+
   def set_disabled_fields
     options = {}
     options[:subscribe] = true if subscribe_action? || params[:is_subscribe]
     @disabled_fields = get_disabled_fields(current_user, options)
   end
-  
+
   def get_disabled_fields(current_user, options={})
     if options[:subscribe]
       disabled_fields = [:url, :public]
@@ -367,7 +362,7 @@ class UserCommandsController < ApplicationController
     end
   	disabled_fields
   end
-  
+
   def render_tag_action(tag_string, keywords, successful_commands)
     if tag_string.blank?
       flash[:warning] = "No tags specified. Please try again."
@@ -387,7 +382,7 @@ class UserCommandsController < ApplicationController
     @user_command.url_options = Option.sanitize_copied_options(source_object.url_options)
     render :action=>'new'
   end
-  
+
   def setup_source_object
     source_object = params[:is_command] ? Command.find(params[:id]) : UserCommand.find(params[:id])
     @source_verb = subscribe_action? ? "subscribe to" : 'copy'

@@ -17,18 +17,16 @@ class User < ActiveRecord::Base
     is_admin :boolean, :default => false
   	timestamps
   end
-  
+
   has_many :commands
   has_many :user_commands, :dependent => :destroy
   has_many :queries, :dependent=>:destroy
   has_many :tags, :through => :user_commands
   has_many :taggerinos, :through => :user_commands, :source => :tags
-  
+
   belongs_to :default_command, :class_name => "UserCommand", :foreign_key => :default_command_id
 
-  # TODO: Fix this whole cache business
-  # acts_as_cached
-  
+
   PUBLIC_USER = 'public' #can query all public commands + gets deleted user commands
   VIEWABLE_SQL = %[users.activation_code IS NULL]
   #these named_scope methods are just for console since they work intermittently with paginate (only for this model)
@@ -36,7 +34,7 @@ class User < ActiveRecord::Base
   named_scope :active, :conditions => VIEWABLE_SQL
   named_scope :not_yet_activated, :conditions => "users.activation_code IS NOT NULL"
   named_scope :lotsa_commands, :conditions => "users.activation_code IS NOT NULL"
-  
+
   # Virtual attribute for the unencrypted password
   attr_accessor :password
   attr_protected :is_admin, :crypted_password, :salt
@@ -53,24 +51,25 @@ class User < ActiveRecord::Base
   validates_format_of       :email,  :with => /^([^@\s]+)@(?:[-a-z0-9]+\.)+[a-z]{2,}$/i
   before_save :encrypt_password
   before_create :make_activation_code
-  after_create :expire_class_caches
-  after_destroy :move_commands_to_public_user, :expire_class_caches
-  
+  after_destroy :move_commands_to_public_user
+
   def validate
     if self.login && USER_STOPWORDS.include?(self.login.downcase)
       errors.add_to_base "Sorry, the username you've chosen (#{self.login}) is reserved by the system. Please use something else."
     end
   end
-  
+
   #takes ownership of deleted commands
-  def self.public_user; get_cache(:public_user) { find_by_login(PUBLIC_USER); } end
-  
+  def self.public_user
+    find_by_login(PUBLIC_USER)
+  end
+
   def self.find_top_users()
     users = find(:all)
     set_queries_count_for_users(users)
     users
   end
-  
+
   def self.paginate_users(options={})
     #includes user_commands count
     User.paginate({:conditions=>VIEWABLE_SQL, :joins => "INNER JOIN user_commands ON user_commands.user_id = users.id", 
@@ -236,11 +235,11 @@ protected
       }
       ]
     end
-    
+
     def password_required?
       crypted_password.blank? || !password.blank?
     end
-    
+
     # Callback methods
     def encrypt_password
       return if password.blank?
@@ -252,19 +251,13 @@ protected
     def make_activation_code
       self.activation_code = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
       true
-    end 
-    
+    end
+
     def move_commands_to_public_user
       if self.commands.size > 0 && (public_user = self.class.public_user)
         self.commands.each {|e| e.update_attribute :user_id, public_user.id}
       end
       true
     end
-    
-    # TODO: Fix this
-    def expire_class_caches
-      # self.class.expire_cache :find_top_users
-      true
-    end
-    
+
 end

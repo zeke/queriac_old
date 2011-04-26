@@ -18,7 +18,7 @@ class CronManager
       run_job(:delete_unused_tags)
       logger.info("\n*** Ended Cron Manager at #{Time.now}")
     end
-    
+
     def run_job(job_name)
       logger.info "Starting job #{job_name}"
       begin
@@ -28,7 +28,7 @@ class CronManager
       end
       logger.info "Ended job #{job_name}"
     end
-    
+
     def update_commands_for_public
       user = User.find_by_login 'public'
       out_of_date_commands = user.user_commands.out_of_date
@@ -36,7 +36,7 @@ class CronManager
       return if @dry_run
       out_of_date_commands.each {|e| e.update_url_and_options}
     end
-    
+
     def subscribe_to_new_commands_for_public
       user = User.find_by_login 'public'
       existing_command_ids = user.user_commands.map(&:command_id)
@@ -52,7 +52,7 @@ class CronManager
          end
       end
     end
-    
+
     #needed to ensure public command bar works in header
     def sync_command_and_public_command_keywords
       user = User.find_by_login 'public'
@@ -61,7 +61,7 @@ class CronManager
       return if @dry_run
       out_of_sync_commands.each {|e| e.update_attribute :keyword, e.command.keyword }
     end
-    
+
     def sync_command_query_counts
       sums = UserCommand.find(:all, :group=>"command_id", :select=>"command_id, sum(queries_count) as sum")
       logger.info "Checking #{sums.size} command counts."
@@ -77,7 +77,7 @@ class CronManager
         end
       end
     end
-    
+
     def sync_user_command_query_counts
       counts = Query.find(:all, :group=>'user_command_id', :select=>'user_command_id, count(*) as count')
       logger.info "Checking #{counts.size} user_command counts."
@@ -93,20 +93,20 @@ class CronManager
         end
       end
     end
-    
+
     def check_for_unused_commands
       used_command_ids = UserCommand.find(:all, :group=>"command_id", :select=>"command_id").map(&:command_id)
       unused_commands = Command.find(:all).select {|e| !used_command_ids.include?(e.id)}
       logger.info "Following public commands are not used: #{unused_commands.select(&:public).map(&:id).inspect}"
       logger.info "Following private commands are not used: #{unused_commands.reject(&:public).map(&:id).inspect}"
     end
-    
+
     def check_for_private_commands_with_multiple_users
       command_ids = UserCommand.find(:all, :group=>"command_id HAVING count > 1", :select=>"command_id, count(*) as count")
       private_commands = command_ids.select {|e| e.command.private?}
       logger.info "Following private commands have multiple users: #{private_commands.map(&:id).inspect}"
     end
-    
+
     def sync_command_user_counts
       command_ids = UserCommand.find(:all, :group=>"command_id", :select=>"command_id, count(*) as users_count")
       logger.info "Checking #{command_ids.size} command counts."
@@ -122,7 +122,7 @@ class CronManager
         end
       end
     end
-    
+
     def delete_unused_tags
       tag_ids = Tag.unused_tag_ids
       tags = Tag.find(tag_ids)
@@ -130,7 +130,7 @@ class CronManager
       return if @dry_run
       tags.each {|e| e.destroy }
     end
-    
+
     def cleanup_public_commands
       #keyword keywordless commands
       #delete/hide commands with no subscribers after x days?

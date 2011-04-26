@@ -24,7 +24,7 @@ module LinkHelper
   
   def basic_user_command_link(user_command, options={})
     link_to(h(options[:name_length] ? truncate(user_command.name, options[:name_length]) : user_command.name),
-      public_user_command_path(user_command), :title=>h(truncate(user_command.url, 200)), :class=>options[:class])
+      public_user_command_path(user_command), :title=>h(truncate(user_command.url, :limit=> 200)), :class=>options[:class])
   end
   
   #to be used in table listings

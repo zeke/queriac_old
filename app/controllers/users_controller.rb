@@ -15,31 +15,25 @@ class UsersController < ApplicationController
 
   def new
   end
-  
+
   def home
     @user = current_user
     show
     render :action=>'show'
   end
-  
+
   def show
     publicity = (current_user? || admin?) ? "any" : "public"
-    
+
     if @user.queries.count > 100
-      # TODO: Fix this cache thing
-      # @quicksearches, @shortcuts, @bookmarklets = @user.cached(:user_commands_by_type, :with=>publicity, :ttl=>15.minutes)
       @quicksearches, @shortcuts, @bookmarklets = @user.user_commands_by_type(publicity)
     else
       @user_commands = @user.user_commands.send(publicity).paginate(:page => params[:page], :order => "queries_count DESC", :include => [:user, :command])
     end
-    
-    # TODO: Fix this cache thing
-    # @users = User.cached(:find_top_users)
     @users = User.find_top_users
-    
     @commands_to_update = @user.user_commands.out_of_date if current_user?
   end
-  
+
   def opensearch
     respond_to do |format|
       format.xml  { render :actions => "opensearch" }
@@ -52,24 +46,23 @@ class UsersController < ApplicationController
       render :action=>'new'
       return
     end
-    
-    @user = User.new(params[:user])      
+
+    @user = User.new(params[:user])
     @user.save!
     flash[:notice] = "Thanks for signing up! Before you can log in, you'll have to verify your account by checking your email."
     redirect_to home_path
   rescue ActiveRecord::RecordInvalid
     render :action => 'new'
   end
-  
+
   def edit
     @user = current_user
   end
-  
+
   def update
     @user = current_user
 
     respond_to do |format|
-      
       params[:user][:default_command_id] = nil if params[:use_default_command] == "no"
 
       if @user.update_attributes(params[:user])
@@ -94,7 +87,7 @@ class UsersController < ApplicationController
     end
     redirect_to static_page_path('setup')
   end
-  
+
   def destroy
     password = params[:user][:password]
     password_confirmation = params[:user][:password_confirmation]

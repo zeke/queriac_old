@@ -22,11 +22,8 @@ class UserCommand < ActiveRecord::Base
   belongs_to :user
   belongs_to :command
   has_many :queries, :dependent => :destroy
-  
-  acts_as_taggable
 
-  # TODO: Fix this whole cache business
-  # acts_as_cached
+  acts_as_taggable
 
   validates_presence_of :user_id, :keyword, :name, :url
   validates_each :url_options do |record, attr, value|
@@ -35,7 +32,7 @@ class UserCommand < ActiveRecord::Base
   #command validation needs to be after the above validations which effect command creation
   validates_presence_of :command_id, :message=>"couldn't be created. Our support team has been notified and should contact you promptly.",
     :unless=>Proc.new {|uc| uc.errors.size > 0}
-    
+
   validates_uniqueness_of :keyword, :scope => :user_id
   validates_uniqueness_of :command_id, :scope=>:user_id, :message=>'is already created for this user.'
   validates_uniqueness_of :name, :scope=>:user_id

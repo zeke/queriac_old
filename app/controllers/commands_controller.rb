@@ -150,7 +150,7 @@ class CommandsController < ApplicationController
 
   #desired behavior for private queries is just a sidebar?
   def show
-    @user_commands, @queries =  @command.cached(:show_page)
+    @user_commands, @queries =  @command.show_page
     respond_to do |format|
       format.html
       format.xml  { render :xml => @command.to_xml }

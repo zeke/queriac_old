@@ -18,16 +18,13 @@ class Command < ActiveRecord::Base
     queries_count_all :integer, :default => 0
     revised_at :datetime
     timestamps
-  end  
-  
+  end
+
   belongs_to :user
   has_many :queries, :through=>:user_commands
   has_many :user_commands, :dependent=>:destroy
   has_many :users, :through=>:user_commands, :conditions=>User::VIEWABLE_SQL
   has_many :user_tags, :through=>:user_commands, :source=>:tags
-  
-  # TODO: Fix this whole cache business
-  # acts_as_cached
 
   acts_as_taggable
   named_scope :public, :conditions => {:public => true}
@@ -40,8 +37,7 @@ class Command < ActiveRecord::Base
   named_scope :nonshortcuts, :conditions=>["NOT(commands.kind ='shortcut' AND commands.bookmarklet = ?)", false]
   named_scope :shortcuts, :conditions => ["commands.kind ='shortcut' AND commands.bookmarklet = ?", false]
   named_scope :quicksearches, :conditions => ["commands.kind ='parametric' AND commands.bookmarklet = ?", false]
-  
-  after_update :expire_cache
+
   before_update :update_revised_at, :destroy_public_user_command_if_privatized
   validates_presence_of :name, :url
   validates_uniqueness_of :name
@@ -49,14 +45,14 @@ class Command < ActiveRecord::Base
   validates_uniqueness_of :keyword, :allow_nil=>true
   validates_format_of :keyword, :with => /^\w+$/i, :message => "can only contain letters and numbers.", :unless=>Proc.new {|c| c.keyword.nil?}  
   serialize :url_options, Array
-  
+
   TYPES = [:bookmarklets, :shortcuts, :options, :quicksearches]
-  
+
   def to_param; self.keyword || self.id; end
-  
+
   # Validation / Initialization
   #------------------------------------------------------------------------------------------------------------------
-  
+
   def validate
     if self.keyword
       if COMMAND_STOPWORDS.include?(self.keyword.downcase)
@@ -68,7 +64,7 @@ class Command < ActiveRecord::Base
     end
     validate_url_options if has_options? 
   end
-  
+
   #trying to ensure commands are created from user command creation even
   #when commands are initially invalid
   def after_validation_on_create
@@ -83,46 +79,41 @@ class Command < ActiveRecord::Base
       self.save if self.valid?
     end
   end
-  
+
   def before_validation_on_create
     self.keyword.downcase! if self.keyword
     self.url.sub!('%s', DEFAULT_PARAM )
   end
-  
+
   def after_validation
     self.kind = (self.url.include?(DEFAULT_PARAM) || self.url =~ OPTION_PARAM_REGEX) ? "parametric" : "shortcut"
     self.bookmarklet = url_is_bookmarklet?(self.url)
   end
-  
+
   #Callback methods
   #------------------------------------------------------------------------------------------------------------------
 
-  # TODO: Fix this
-  def expire_cache
-    # self.expire_cached(:show_page)
-    true
-  end
-  
+
   def destroy_public_user_command_if_privatized
     if self.changed.include?('public') && self.public == false
       (user_command = self.user_commands.detect {|e| e.user.login == User::PUBLIC_USER}) && user_command.destroy
     end
     true
   end
-  
+
   def update_revised_at
     self.revised_at = Time.now if self.changed.include?('url')
     true
   end
-  
+
   # Booleans
   #------------------------------------------------------------------------------------------------------------------
   def parametric?; self.kind == "parametric"; end
   def private?; !public?; end
-  
+
   # Miscellany
   #------------------------------------------------------------------------------------------------------------------
-  
+
   #to be called from vicarious updates ie @user_command.update_all_attributes
   def update_attributes_safely(*args)
     self.update_attributes(*args)
@@ -132,23 +123,23 @@ class Command < ActiveRecord::Base
       self.save if self.valid?
     end
   end
-  
+
   def created_by?(possible_owner)
     self.user == possible_owner
   end
-  
+
   def creator_command
     self.user_commands.find(:first, :conditions=>{:user_id=>self.user_id})
   end
-  
+
   def increment_users_count(increment_count=1)
     self.update_attribute(:users_count, self.users_count + increment_count)
   end
-  
+
   def increment_query_count(increment_count=1)
     self.update_attribute(:queries_count_all, self.queries_count_all + increment_count)
   end
-  
+
   def decrement_user_command_counts(queries_count=1)
     hash = {}
     if self.queries_count_all > 0
@@ -157,13 +148,13 @@ class Command < ActiveRecord::Base
     hash[:users_count] = self.users_count - 1
     self.update_attributes hash
   end
-  
+
   def self.parse_advanced_search(query)
     allowed_columns = %w{name description url keyword}
     if query[/-[^c]/]
       query_array = query.split(/\s*-\s*/).map {|e| e.split(/\s+/) }.flatten
       query_hash = Hash[*query_array]
-      query_hash.each {|k,v| 
+      query_hash.each {|k,v|
         if (col = allowed_columns.find {|e| e.starts_with?(k)})
           query_hash.delete(k)
           query_hash[col] = v
@@ -176,7 +167,7 @@ class Command < ActiveRecord::Base
       else
         query_columns = ['url', 'keyword']
       end
-        
+
       query_array = query_columns.zip(Array.new(query_columns.size, query)).flatten
       query_hash = Hash[*query_array]
     end
@@ -184,7 +175,7 @@ class Command < ActiveRecord::Base
     query_string = query_hash.keys.map {|k| "commands.#{k} REGEXP :#{k}"}.join(" OR ")
     {:conditions=>[query_string, query_hash.symbolize_keys] }
   end
-  
+
   def self.create_commands_for_user_from_bookmark_file(user, file)
     valid_commands = []
     invalid_commands = []
@@ -206,10 +197,10 @@ class Command < ActiveRecord::Base
     invalid_commands.each {|c|
       logger.error "INVALID_COMMAND: " + c.inspect
       logger.error c.errors.full_messages.join(', ')
-    } 
+    }
     return [valid_commands, invalid_commands]
   end
-  
+
   def self.find_by_keyword_or_id(id, options={})
     find(:first, {:conditions=>["commands.keyword = ? OR commands.id = ?", id, id]}.merge(options))
   end
