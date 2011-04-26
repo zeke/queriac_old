@@ -10,6 +10,7 @@ Rails::Initializer.run do |config|
   config.gem "haml"
   config.gem "sass"
   config.gem "wordnik_ruby_helpers"
+  config.gem "bullet"
   config.gem "will_paginate", :version => "2.3.14"
   config.time_zone = 'UTC'
 	config.gem 'csv-mapper'

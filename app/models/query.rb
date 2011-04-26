@@ -1,5 +1,5 @@
 class Query < ActiveRecord::Base
-  
+
   fields do
     user_id :integer, :index => true
     user_command_id :integer, :index => true

@@ -17,3 +17,11 @@ config.action_controller.perform_caching             = true
 config.action_mailer.raise_delivery_errors = false
 
 # HOST = 'queriac:3001'
+
+config.after_initialize do
+  Bullet.enable = true
+  Bullet.alert = true
+  Bullet.bullet_logger = true
+  Bullet.rails_logger = true
+  Bullet.disable_browser_cache = true
+end
