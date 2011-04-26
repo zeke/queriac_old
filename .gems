@@ -1,8 +1,9 @@
-rails --version 2.3.5
+rails --version 2.3.11
 rack --version 1.0.1
 maruku
 yard
 haml --ignore-dependencies
+sass
 hpricot
 hobosupport
 hobofields --ignore-dependencies

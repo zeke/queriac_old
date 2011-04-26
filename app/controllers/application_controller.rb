@@ -1,22 +1,22 @@
 class ApplicationController < ActionController::Base
-  include ExceptionNotifiable, PathHelper, SharedHelper
-  
+  include PathHelper, SharedHelper
+
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
   # Scrub sensitive parameters from your log
   filter_parameter_logging :password
-  
+
   include AuthenticatedSystem
-  
+
   before_filter :login_from_cookie
 
   def allow_breadcrumbs
     @breadcrumbs_allowed = true
   end
-  
+
 protected
-  
+
   def general_sort_param_value(table_name, valid_sort_columns, default_sort)
     valid_directions = %w{down up}
     #format: up_by_column, down_by_column
@@ -29,24 +29,24 @@ protected
       default_sort
     end
   end
-  
+
   #### Methods below are used in before filters
-  
+
   #load_valid_user* used to load @user in controllers
   def load_valid_user
     load_user_from_param
     redirect_no_user
   end
-  
+
   def load_valid_user_if_specified
     load_user_from_param
     redirect_invalid_user
   end
-  
+
   def load_user_from_param
     @user = (logged_in? && current_user.login==params[:login]) ? current_user : User.find_by_login(params[:login])
   end
-  
+
   def redirect_no_user
     if @user.nil? || ! @user.activated?
       flash[:warning] = %[The user '#{params[:login]}' #{@user ? "hasn't been activated" : "doesn't exist"}.]
@@ -55,7 +55,7 @@ protected
     end
     true
   end
-  
+
   # this won't redirect actions that don't need params[:login] to be reached ie commands/index
   def redirect_invalid_user
     if ! params[:login].nil? && (@user.nil? || !@user.activated?)
@@ -65,7 +65,7 @@ protected
     end
     true
   end
-  
+
   def admin_required
     if logged_in? && current_user.is_admin?
       return true
@@ -75,7 +75,7 @@ protected
       return false
     end
   end
-  
+
   # used to load @tags in controllers
   def load_tags_if_specified
     if params[:tag]
@@ -94,7 +94,7 @@ protected
       end
     end
   end
-  
+
   def set_command
     # action_include_hash = {'edit'=>[:user], 'destroy'=>[:queries]} for /commands
     # @command = @user.commands.find_by_keyword(params[:command], :include=>action_include_hash[self.action_name] || [])
@@ -112,7 +112,7 @@ protected
     end
     true
   end
-  
+
   def user_command_is_nil?(attempt=nil)
     if @user_command.nil?
       flash[:warning] = %[User command #{"'#{attempt}'" if attempt} not found.]
@@ -122,5 +122,5 @@ protected
       return false
     end
   end
-  
+
 end
