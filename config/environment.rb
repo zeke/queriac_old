@@ -24,7 +24,7 @@ Time::DATE_FORMATS[:ymdhms] = Time::DATE_FORMATS[:batch] = "%Y%m%d%H%M%S"
 DEFAULT_PARAM = "(q)"
 OPTION_NAME_REGEX = '\w+'
 #option is a word with a optional metadata delimited by '=' ie [:type=normal]
-OPTION_PARAM_REGEX = /\[:(#{OPTION_NAME_REGEX})(=[^\[\]]+)?\]/    
+OPTION_PARAM_REGEX = /\[:(#{OPTION_NAME_REGEX})(=[^\[\]]+)?\]/
 
 # Include your application configuration below
 require 'open-uri'
