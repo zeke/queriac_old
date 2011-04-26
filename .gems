@@ -9,3 +9,4 @@ hobofields --ignore-dependencies
 zeke-monkey_patches --source gems.github.com
 will_paginate --version 2.3.14
 memcached-northscale
+csv-mapper

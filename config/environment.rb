@@ -12,6 +12,7 @@ Rails::Initializer.run do |config|
   config.gem "will_paginate", :version => "2.3.14"
   config.time_zone = 'UTC'
   config.gem 'memcached-northscale', :lib => 'memcached'
+	config.gem 'csv-mapper'
 end
 
 Time::DATE_FORMATS[:short] = "%B %d"

@@ -70,7 +70,7 @@ class UserCommandsController < ApplicationController
   
   def new  
     @user_command = UserCommand.new
-    #Allow user to pre-populate form
+    # Allow user to pre-populate form
     @user_command.attributes = params.slice(:name, :keyword, :url, :description)
   end
   
@@ -99,9 +99,7 @@ class UserCommandsController < ApplicationController
   end
   
   def import
-    
     if request.post?
-      
       if params['bookmarks_file'].blank?
         flash[:warning] = 'Not a valid bookmark file, try again.'
       else        
