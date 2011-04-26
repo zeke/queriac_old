@@ -10,3 +10,4 @@ hobofields --ignore-dependencies
 will_paginate --version 2.3.14
 wordnik_ruby_helpers --ignore-dependencies
 bullet
+csv-mapper
