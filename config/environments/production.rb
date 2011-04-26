@@ -27,14 +27,14 @@ config.cache_store = :mem_cache_store, Memcached::Rails.new
 # Enable threaded mode
 # config.threadsafe!
 
-ActionMailer::Base.smtp_settings = {
-  :address => "smtp.gmail.com",
-  :port => 587,
-  :domain => "gmail.com", 
-  :authentication => :plain,
-  :user_name => "admin@queri.ac",
-  :password => ENV['QUERIAC_SMTP_PASSWORD']
-}
-ActionMailer::Base.delivery_method = :smtp
+# ActionMailer::Base.smtp_settings = {
+#   :address => "smtp.gmail.com",
+#   :port => 587,
+#   :domain => "gmail.com", 
+#   :authentication => :plain,
+#   :user_name => "admin@queri.ac",
+#   :password => ENV['QUERIAC_SMTP_PASSWORD']
+# }
+# ActionMailer::Base.delivery_method = :smtp
 
 HOST = 'queri.ac'
